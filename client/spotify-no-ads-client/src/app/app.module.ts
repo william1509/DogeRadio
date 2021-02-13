@@ -9,12 +9,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { TopBarComponent } from './components/TopBar/top-bar/top-bar.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table'  
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponentComponent,
+    TopBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
     NoopAnimationsModule,
     MatInputModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCardModule,
+    MatButtonModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

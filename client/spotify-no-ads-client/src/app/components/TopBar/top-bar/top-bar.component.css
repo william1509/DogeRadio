@@ -1,0 +1,13 @@
+#main-container {
+    background-color: darkslategrey;
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+
+#title {
+    font-size: 40px;
+    margin-left: 20px;
+    font-family: monospace;
+    color: white;
+}

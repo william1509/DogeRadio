@@ -1,5 +1,21 @@
-<p>main-component works!</p>
-<button mat-button (click)="buttonClicked()">Hello</button>
-<mat-form-field>
-    <input matInput placeholder="Input" [(ngModel)]="keyword">
-</mat-form-field>
+<app-top-bar></app-top-bar>
+<div id="main-container">
+    <div id="center-elements">
+        <div id="search-bar">
+            <mat-form-field>
+            <input id="input" matInput placeholder="Enter a song" [(ngModel)]="keyword">
+            </mat-form-field>
+            <button mat-button id="button" (click)="buttonClicked()">Go</button>
+        </div>
+        <div id="songs-container" fxLayout="row" fxLayoutAlign="space-evenly center">
+            <li *ngFor="let song of this.musicGetterService.songs">
+                <div class="song-container">
+                    <mat-label class="song-label">{{song.video_title}}</mat-label>
+                </div>
+                
+            </li>
+        </div>
+    </div>
+    
+    
+</div>

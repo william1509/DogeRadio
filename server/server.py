@@ -4,17 +4,14 @@ import youtube_dl
 from youtube_api import YouTubeDataAPI
 
 app = Flask(__name__)
-api_key = 'AIzaSyBiIPmB4raMcn-i7V4gfK6h9FusnHuK0Bw'
+api_key = 'AIzaSyA8Bz3_e58U3aCxZvNt2W9zyBgcVnzGLeU'
 
 @app.route('/search', methods=['POST'])
 def search():
     if request.method == "POST":
-        keyword = request.json['name']
-        response = {'name': keyword}
-        # yt = YouTubeDataAPI(api_key)
+        yt = YouTubeDataAPI(api_key)
 
-        # searches = yt.search(q='bruh', max_results=5)
-        # print(searches)
+        response = yt.search(q=request.data, max_results=5)
         # ydl_opts = {'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}], 'outtmpl': 'Musics/%(title)s'+'.mp3'}
         # with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         #     ydl.download(['https://www.youtube.com/watch?v=2ZIpFytCSVc'])

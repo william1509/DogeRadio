@@ -1,0 +1,59 @@
+#main-container {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+#center-elements {
+    margin-top: 50px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+#input {
+    font-size: 50px;
+    color: white;
+    width: 500px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-right: 20px;
+    border-color: white;
+}
+
+#button {
+    background-color: transparent;
+    border-color: transparent;
+    font-size: 20px;
+    width: 100px;
+    color: grey;
+
+}
+
+#button:hover {
+    color: white;
+}
+
+#search-bar {
+    display: flex;
+}
+
+.song-label {
+    color: grey;
+    font-family: monospace;
+    font-size: 30px;
+}
+
+#songs-container {
+    display: table;
+    margin: auto;
+}
+
+.song-container {
+    margin-top: 10px;
+}
