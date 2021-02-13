@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { Video } from '../../services/Video'
 
 @Component({
   selector: 'app-main-component',
@@ -17,7 +18,7 @@ export class MainComponentComponent implements OnInit {
     console.log("Cool");
   }
   public buttonClicked(): void {
-    this.musicGetterService.SearchForSong(this.keyword);
+    this.musicGetterService.SearchForSong({name: this.keyword});
   }
 
 }
