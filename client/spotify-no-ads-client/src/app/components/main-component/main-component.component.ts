@@ -18,10 +18,14 @@ export class MainComponentComponent implements OnInit {
     
   }
   public buttonClicked(): void {
-    this.musicGetterService.SearchForSong(this.keyword);
-    // this.musicGetterService.songs.push(new Video("lol", "lol", "lol", "WOWOOW", "TITLELELE", "tofday", "wow", "fefs", "dfsadsa", "dsadsa"));
+    //this.musicGetterService.SearchForSong(this.keyword);
+    this.musicGetterService.songs.push(new Video("lol", "lol", "lol", "WOWOOW", "TITLELELE", "tofday", "wow", "fefs", "XqZsoesa55w", "dsadsa"));
     // this.musicGetterService.songs.push(new Video("lol", "lol", "lol", "WOWOOW", "54534543", "tofday", "wow", "fefs", "dfsadsa", "dsadsa"));
-    console.log(this.musicGetterService.songs);
+  }
+
+  public SongClicked(video_id: string) {
+    console.log(video_id);
+    this.musicGetterService.DownloadFromServer(video_id);
   }
 
 }

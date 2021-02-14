@@ -8,11 +8,10 @@
             <button mat-button id="button" (click)="buttonClicked()">Go</button>
         </div>
         <div id="songs-container" fxLayout="row" fxLayoutAlign="space-evenly center">
-            <li *ngFor="let song of this.musicGetterService.songs">
+            <li class="list-item" *ngFor="let song of this.musicGetterService.songs">
                 <div class="song-container">
-                    <mat-label class="song-label">{{song.video_title}}</mat-label>
+                    <button mat-button (click)="SongClicked(song.video_id)" class="song-button">{{song.video_title}}</button>
                 </div>
-                
             </li>
         </div>
     </div>
