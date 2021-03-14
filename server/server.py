@@ -8,11 +8,11 @@ api_key = 'AIzaSyA8Bz3_e58U3aCxZvNt2W9zyBgcVnzGLeU'
 
 @app.route('/download', methods=['POST', "GET"])
 def download():
-    print(request.args.get('name'))
     try:
-        video_id = request.args.get('name')
-        print('Request = {}'.format(video_id))
-        
+        songs = os.listdir('static/Musics/')
+        print('SONGS =' + songs)
+        video_id = request.args.get('name')     
+        print(video_id)   
         ydl_opts = {'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}], 'outtmpl': 'static/Musics/' + video_id}
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
            ydl.download(['https://www.youtube.com/watch?v=' + video_id])
@@ -23,10 +23,9 @@ def download():
 @app.route('/search', methods=['POST'])
 def search():
     if request.method == "POST":
+        print(request.json)
         yt = YouTubeDataAPI(api_key)
-
-        response = yt.search(q=request.data, max_results=5)
-
+        response = yt.search(request.json, max_results=5)
         return jsonify(response)
 
 

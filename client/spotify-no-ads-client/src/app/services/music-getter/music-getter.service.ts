@@ -26,6 +26,7 @@ export class MusicGetterService {
             'Content-Type': 'application/json; charset=UTF-8'
         });
         const body = JSON.stringify(keyword);
+        console.log(body);
         this.httpClient.post<Video>(url + '/search', body, {
             headers: httpHeaders
         }).toPromise().then(vid => {
@@ -39,10 +40,9 @@ export class MusicGetterService {
     ///trouver comment ajouter des headers dans la requete
     public DownloadFromServer(video_id: string): void {
 
-
         const params = new HttpParams({ fromString: 'name=' + video_id });
         this.httpClient.request('GET', url + '/download', { responseType: 'blob', params }).toPromise().then(response => {
-            console.log(response);
+            console.log('RESPONSE' + response);
             var data_url = URL.createObjectURL(response);
             var player = document.getElementById('player') as HTMLAudioElement;
             player.setAttribute('src', data_url);

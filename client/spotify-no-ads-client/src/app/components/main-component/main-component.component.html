@@ -5,7 +5,7 @@
             <mat-form-field>
             <input id="input" matInput placeholder="Enter a song" [(ngModel)]="keyword">
             </mat-form-field>
-            <button mat-button id="button" (click)="buttonClicked()">Go</button>
+            <button mat-button id="button" (click)="ButtonClicked()">Go</button>
         </div>
         <div id="songs-container" fxLayout="row" fxLayoutAlign="space-evenly center">
             <li class="list-item" *ngFor="let song of this.musicGetterService.songs">
@@ -14,6 +14,9 @@
                 </div>
             </li>
         </div>
+    </div>
+    <div id="left-container">
+        <input type="range" min="1" max="100" value="50" class="slider" (change)="VolumeChanged($event)">
     </div>
     <audio id="player"></audio>
 </div>
