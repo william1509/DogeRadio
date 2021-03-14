@@ -3,7 +3,7 @@
     <div id="center-elements">
         <div id="search-bar">
             <mat-form-field>
-            <input id="input" matInput placeholder="Enter a song" [(ngModel)]="keyword">
+            <input id="input" matInput placeholder="Enter a song" (keypress)="VerifyInput($event)" [(ngModel)]="keyword">
             </mat-form-field>
             <button mat-button id="button" (click)="ButtonClicked()">Go</button>
         </div>
@@ -16,7 +16,10 @@
         </div>
     </div>
     <div id="left-container">
+        <span id="play-button-container">
+            <button id="play-button" (click)="PlayClicked()"></button>
+        </span>
         <input type="range" min="1" max="100" value="50" class="slider" (change)="VolumeChanged($event)">
     </div>
-    <audio id="player"></audio>
+    <audio #player id="player"></audio>
 </div>

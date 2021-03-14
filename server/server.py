@@ -10,12 +10,13 @@ api_key = 'AIzaSyA8Bz3_e58U3aCxZvNt2W9zyBgcVnzGLeU'
 def download():
     try:
         songs = os.listdir('static/Musics/')
-        print('SONGS =' + songs)
         video_id = request.args.get('name')     
-        print(video_id)   
-        ydl_opts = {'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}], 'outtmpl': 'static/Musics/' + video_id}
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-           ydl.download(['https://www.youtube.com/watch?v=' + video_id])
+        fileName = video_id + '.mp3'
+        if fileName not in songs:
+            ydl_opts = {'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}], 'outtmpl': 'static/Musics/' + video_id}
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download(['https://www.youtube.com/watch?v=' + video_id])
+        
         return app.send_static_file('Musics/{}.mp3'.format(video_id))
     except FileNotFoundError:   
         return abort(404)

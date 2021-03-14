@@ -36,8 +36,8 @@ export class MusicGetterService {
 
     /**
      * name
+     *
      */
-    ///trouver comment ajouter des headers dans la requete
     public DownloadFromServer(video_id: string): void {
 
         const params = new HttpParams({ fromString: 'name=' + video_id });
@@ -46,7 +46,6 @@ export class MusicGetterService {
             var data_url = URL.createObjectURL(response);
             var player = document.getElementById('player') as HTMLAudioElement;
             player.setAttribute('src', data_url);
-            player.play();
         });
     }
 }
