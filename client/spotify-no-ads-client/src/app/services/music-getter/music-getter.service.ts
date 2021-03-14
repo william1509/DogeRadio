@@ -1,49 +1,53 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Video } from '../Video';
 
 const url = 'http://localhost:5000';
 
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 
 export class MusicGetterService {
-  public songs: Video[];
+    public songs: Video[];
 
 
-  constructor(private httpClient: HttpClient) {
-    this.songs = [];
-  }
+    constructor(private httpClient: HttpClient) {
+        this.songs = [];
+    }
 
-  /**
-   * 
-   */
-  public SearchForSong(keyword: string): void {
-    const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json; charset=UTF-8'
-    });
-    const body = JSON.stringify(keyword);
-    this.httpClient.post<Video>(url + '/search', body, {
-      headers: httpHeaders
-    }).toPromise().then(vid => {
-      this.songs = this.songs.concat(vid);
-    });
-  }
+    /**
+     * 
+     */
+    public SearchForSong(keyword: string): void {
+        this.songs = [];
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json; charset=UTF-8'
+        });
+        const body = JSON.stringify(keyword);
+        this.httpClient.post<Video>(url + '/search', body, {
+            headers: httpHeaders
+        }).toPromise().then(vid => {
+            this.songs = this.songs.concat(vid);
+        });
+    }
 
-  /**
-   * name
-   */
-  public DownloadFromServer(video_id: string): void {
-    const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json; charset=UTF-8'
-    });
-    const body = JSON.stringify(video_id);
-    this.httpClient.post(url + '/download', body, {
-      headers: httpHeaders
-    }).toPromise().then(vid => {
-      console.log(vid);
-    });
-  }
+    /**
+     * name
+     */
+    ///trouver comment ajouter des headers dans la requete
+    public DownloadFromServer(video_id: string): void {
+
+
+        const params = new HttpParams({ fromString: 'name=' + video_id });
+        this.httpClient.request('GET', url + '/download', { responseType: 'blob', params }).toPromise().then(response => {
+            console.log(response);
+            var data_url = URL.createObjectURL(response);
+            var player = document.getElementById('player') as HTMLAudioElement;
+            player.setAttribute('src', data_url);
+            player.play();
+        });
+    }
 }
+
