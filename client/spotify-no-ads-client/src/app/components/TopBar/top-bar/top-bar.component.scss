@@ -1,8 +1,9 @@
 #main-container {
     background-color: darkslategrey;
-    height: 10%;
+    height: 75px;
     display: flex;
     align-items: center;
+    justify-content: left;
 }
 
 #title {
@@ -10,4 +11,9 @@
     margin-left: 20px;
     font-family: monospace;
     color: white;
+}
+
+#page-logo {
+    height: 90%;
+    margin-left: 10px;
 }

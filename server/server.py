@@ -1,12 +1,21 @@
 from flask import Flask, render_template, request, redirect, jsonify, send_file, send_from_directory, safe_join, abort
 import os
 import youtube_dl
-from youtube_api import YouTubeDataAPI
+from youtubesearchpython import VideosSearch
+from PSQLConnector import *
+import psycopg2
 
 app = Flask(__name__)
-api_key = 'AIzaSyA8Bz3_e58U3aCxZvNt2W9zyBgcVnzGLeU'
 
-@app.route('/download', methods=['POST', "GET"])
+@app.before_request
+def activate_job():
+    
+    try:
+        PSQLConnector.instance().connect()
+    except Exception:
+        print('Connected to the database')
+
+@app.route('/download', methods=['GET'])
 def download():
     try:
         songs = os.listdir('static/Musics/')
@@ -16,23 +25,47 @@ def download():
             ydl_opts = {'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}], 'outtmpl': 'static/Musics/' + video_id}
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 ydl.download(['https://www.youtube.com/watch?v=' + video_id])
-        
+            cursor = PSQLConnector.instance().conn.cursor()
+            cursor.execute("insert into songs values (%s) on conflict (song_id) do nothing", [video_id])
         return app.send_static_file('Musics/{}.mp3'.format(video_id))
-    except FileNotFoundError:   
+    except Exception:   
         return abort(404)
         
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET'])
 def search():
-    if request.method == "POST":
-        print(request.json)
-        yt = YouTubeDataAPI(api_key)
-        response = yt.search(request.json, max_results=5)
-        return jsonify(response)
+    try:
+        keywords = request.args.get('keyword')
+        print(keywords)
+        response = VideosSearch(keywords, limit=5).result()
+        return response
+    except Exception:
+        print('Search failed')
+        return ''
 
+@app.route('/playlists', methods=['GET'])
+def getPlaylist():
+    cursor = PSQLConnector.instance().conn.cursor()
+    
+    try:
+        cursor.execute("SELECT song_id from songs;")
+    except Exception:
+        print('Could not retreive the songs')
+        return 'Hi'
 
+    rows = cursor.fetchall()
+    for row in rows:
+        print("ID = {}".format(row[0])) 
+    return 'Hello'
 
 @app.after_request
 def after_request(response):
+    PSQLConnector.instance().conn.commit()
+    try:
+        print('Closing connection')
+        PSQLConnector.instance().conn.close()
+    except Exception:
+        print('An error occured while close the connection to the database')
+
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:4200')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')

@@ -2,24 +2,34 @@
 <div id="main-container">
     <div id="center-elements">
         <div id="search-bar">
-            <mat-form-field>
-            <input id="input" matInput placeholder="Enter a song" (keypress)="VerifyInput($event)" [(ngModel)]="keyword">
+            <mat-form-field color="primary">
+                <input id="input" matInput placeholder="Enter a song" (keypress)="VerifyInput($event)" [(ngModel)]="keyword">
             </mat-form-field>
             <button mat-button id="button" (click)="ButtonClicked()">Go</button>
         </div>
-        <div id="songs-container" fxLayout="row" fxLayoutAlign="space-evenly center">
+        <ul id="songs-container">
             <li class="list-item" *ngFor="let song of this.musicGetterService.songs">
                 <div class="song-container">
-                    <button mat-button (click)="SongClicked(song.video_id)" class="song-button">{{song.video_title}}</button>
+                    <button (click)="SongClicked(song.id, song.title)" class="song-button">
+                        <p>{{song.title}}</p>
+                        <p id="views-label">{{song.viewCount.text}}</p>
+                    </button>
+                    
                 </div>
             </li>
-        </div>
+        </ul>
     </div>
-    <div id="left-container">
+    <div id="right-container">
+        <p id="music-playing-label">{{currentSongName}}</p>
         <span id="play-button-container">
             <button id="play-button" (click)="PlayClicked()"></button>
         </span>
-        <input type="range" min="1" max="100" value="50" class="slider" (change)="VolumeChanged($event)">
+        <input type="range" min="1" max="1000" value="1" id="slider-progress" (change)="TimeChanged()">
+        <div id="volume-container">
+            <input type="range" min="1" max="100" value="50" id="slider-audio" (change)="VolumeChanged($event)">
+            <img id="volume-image" src="../../../assets/volume.png" alt="Volume logo" width="5%" />
+        </div>
+        <button (click)="GetPlaylists()">Hello</button>
     </div>
-    <audio #player id="player"></audio>
+    <audio (timeupdate)="TimeUpdate()" id="player" (ended)="AudioEnded()"></audio>
 </div>

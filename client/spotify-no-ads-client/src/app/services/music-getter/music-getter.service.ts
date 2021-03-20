@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Video } from '../Video';
+import { Observable } from 'rxjs';
 
 const url = 'http://localhost:5000';
 
@@ -22,31 +23,24 @@ export class MusicGetterService {
      */
     public SearchForSong(keyword: string): void {
         this.songs = [];
-        const httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json; charset=UTF-8'
-        });
-        const body = JSON.stringify(keyword);
-        console.log(body);
-        this.httpClient.post<Video>(url + '/search', body, {
-            headers: httpHeaders
-        }).toPromise().then(vid => {
-            this.songs = this.songs.concat(vid);
-        });
+        const params = new HttpParams({ fromString: 'keyword=' + keyword });
+        this.httpClient.request('GET', url + '/search', { responseType: 'text', params }).subscribe(response => {
+            const results = JSON.parse(response)
+            this.songs = results['result'];
+        });        
     }
 
     /**
      * name
      *
      */
-    public DownloadFromServer(video_id: string): void {
-
+    public DownloadFromServer(video_id: string): Observable<Blob> {
         const params = new HttpParams({ fromString: 'name=' + video_id });
-        this.httpClient.request('GET', url + '/download', { responseType: 'blob', params }).toPromise().then(response => {
-            console.log('RESPONSE' + response);
-            var data_url = URL.createObjectURL(response);
-            var player = document.getElementById('player') as HTMLAudioElement;
-            player.setAttribute('src', data_url);
-        });
+        return this.httpClient.request('GET', url + '/download', { responseType: 'blob', params });
+    }
+
+    public GetPlaylists(): Observable<string> {
+        return this.httpClient.request('GET', url + '/playlists', { responseType: 'text' });
     }
 }
 
