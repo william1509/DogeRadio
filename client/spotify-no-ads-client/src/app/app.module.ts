@@ -3,22 +3,28 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MainComponentComponent } from './components/main-component/main-component.component';
+import { MainComponent } from './components/main/main.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { TopBarComponent } from './components/TopBar/top-bar/top-bar.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table'  
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { Routes, RouterModule } from '@angular/router';
+import { PlaylistComponent } from './components/playlist/playlist.component';
+import { SearchComponent } from './components/search/search.component';  
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponentComponent,
+    MainComponent,
     TopBarComponent,
+    PlaylistComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +35,11 @@ import { MatTableModule } from '@angular/material/table'
     HttpClientModule,
     MatCardModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    MatIconModule,
+    RouterModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
