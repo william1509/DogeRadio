@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -7,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private musicGetterService: MusicGetterService) { }
 
   ngOnInit(): void {
   }
 
-
+  public GetPlaylists(): void {
+    this.musicGetterService.GetPlaylists();
+}
 }

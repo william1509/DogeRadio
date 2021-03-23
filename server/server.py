@@ -4,6 +4,7 @@ import youtube_dl
 from youtubesearchpython import VideosSearch
 from PSQLConnector import *
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 
@@ -44,18 +45,16 @@ def search():
 
 @app.route('/playlists', methods=['GET'])
 def getPlaylist():
-    cursor = PSQLConnector.instance().conn.cursor()
+    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
     
     try:
-        cursor.execute("SELECT song_id from songs;")
+        cursor.execute("SELECT * from playlists_users where user_id = '1'")
     except Exception:
         print('Could not retreive the songs')
         return 'Hi'
 
     rows = cursor.fetchall()
-    for row in rows:
-        print("ID = {}".format(row[0])) 
-    return 'Hello'
+    return jsonify(rows)
 
 @app.after_request
 def after_request(response):

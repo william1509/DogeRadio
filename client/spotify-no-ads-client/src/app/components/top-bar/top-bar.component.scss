@@ -32,8 +32,17 @@
 .example-spacer {
     flex: 1 1 auto;
 }
-
-#playlist-button {
+#playlist-button
+{
     font-family: monospace;
     font-size: 20px;
+    margin-right: 30px;
+    text-decoration: none;
+    color:white; 
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+}
+#playlist-button:hover
+{
+    background-color: green;
 }

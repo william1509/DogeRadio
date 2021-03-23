@@ -13,10 +13,11 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table'  
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { Routes, RouterModule } from '@angular/router';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { SearchComponent } from './components/search/search.component';  
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -38,10 +39,12 @@ import { SearchComponent } from './components/search/search.component';
     MatTableModule,
     MatToolbarModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    FlexLayoutModule
 
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

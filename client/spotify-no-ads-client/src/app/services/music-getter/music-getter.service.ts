@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Video } from '../Video';
 import { Observable } from 'rxjs';
+import { Playlist } from '../Playlist';
 
 const url = 'http://localhost:5000';
 
@@ -12,10 +13,12 @@ const url = 'http://localhost:5000';
 
 export class MusicGetterService {
     public songs: Video[];
+    public playlists: Playlist[];
 
 
     constructor(private httpClient: HttpClient) {
         this.songs = [];
+        this.playlists = [];
     }
 
     /**
@@ -39,8 +42,14 @@ export class MusicGetterService {
         return this.httpClient.request('GET', url + '/download', { responseType: 'blob', params });
     }
 
-    public GetPlaylists(): Observable<string> {
-        return this.httpClient.request('GET', url + '/playlists', { responseType: 'text' });
+    public GetPlaylists(): void {
+        this.playlists = [];
+        this.httpClient.request('GET', url + '/playlists', { responseType: 'text' }).subscribe(response => {
+            console.log(response);
+
+            this.playlists = JSON.parse(response);
+            console.log(this.playlists)
+        });
     }
 }
 

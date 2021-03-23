@@ -1,17 +1,21 @@
-<app-top-bar></app-top-bar>
-<div id="main-container">
-    <app-search id="app-search"></app-search>
-    <div id="right-container">
-        <p id="music-playing-label">{{musicPlayerService.currentSongName}}</p>
-        <span id="play-button-container">
-            <button id="play-button" (click)="PlayClicked()"></button>
-        </span>
-        <input type="range" min="1" max="1000" value="1" id="slider-progress" (change)="TimeChanged()">
-        <div id="volume-container">
-            <input type="range" min="1" max="100" value="50" id="slider-audio" (change)="VolumeChanged($event)">
-            <img id="volume-image" src="../../../assets/volume.png" alt="Volume logo" width="5%" />
+<body id="container">
+    <app-top-bar></app-top-bar>
+    <div id="main-container" fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div fxFlexOffset="10" fxFlex>
+            <router-outlet></router-outlet>
         </div>
-        <button (click)="GetPlaylists()">Hello</button>
+
+        <div id="right-container">
+            <p id="music-playing-label">{{musicPlayerService.currentSongName}}</p>
+            <span id="play-button-container">
+                <button id="play-button" (click)="PlayClicked()"></button>
+            </span>
+            <input type="range" min="1" max="1000" value="1" id="slider-progress" (change)="TimeChanged()">
+            <div id="volume-container">
+                <input type="range" min="1" max="100" value="50" id="slider-audio" (change)="VolumeChanged($event)">
+                <img id="volume-image" src="../../../assets/volume.png" alt="Volume logo" width="5%" />
+            </div>
+        </div>
+        <audio (timeupdate)="TimeUpdate()" id="player" (ended)="AudioEnded()"></audio>
     </div>
-    <audio (timeupdate)="TimeUpdate()" id="player" (ended)="AudioEnded()"></audio>
-</div>
+</body>

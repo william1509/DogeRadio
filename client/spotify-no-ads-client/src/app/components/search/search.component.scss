@@ -1,15 +1,14 @@
 #container {
-    margin-top: 50px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-right: 100px;
+
+}
+
+:host {
 }
 
 #input {
     font-size: 50px;
     color: white;
-    width: 500px;
+    width: 100%;
 }
 
 mat-form-field {

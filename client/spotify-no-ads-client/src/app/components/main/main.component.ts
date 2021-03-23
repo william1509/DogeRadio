@@ -52,12 +52,6 @@ export class MainComponent implements OnInit {
         progressSlider.value = currentProgress;
     }
 
-    public GetPlaylists(): void {
-        this.musicGetterService.GetPlaylists().subscribe(response => {
-            console.log("hello");
-        });
-    }
-
     public TimeChanged(): void {
         let slider = document.getElementById('slider-progress') as HTMLInputElement; 
         let currentTime = (parseInt(slider.value) / 1000) * this.musicPlayerService.audioPlayerElement.duration; 
