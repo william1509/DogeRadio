@@ -41,20 +41,33 @@ def search():
         return response
     except Exception:
         print('Search failed')
-        return ''
+        return '100'
 
 @app.route('/playlists', methods=['GET'])
 def getPlaylist():
     cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
     
     try:
-        cursor.execute("SELECT * from playlists_users where user_id = '1'")
+        cursor.execute("select * from playlists_users where user_id = '1'")
     except Exception:
         print('Could not retreive the songs')
-        return 'Hi'
+        return '100'
 
     rows = cursor.fetchall()
     return jsonify(rows)
+
+@app.route('/add/playlist', methods=['POST'])
+def addPlaylist():
+    cursor = PSQLConnector.instance().conn.cursor()
+    name = request.args.get('name')
+    try:
+        cursor.execute("insert into playlists_users(user_id, playlist_title) values (%s, %s)", [1, name])
+
+    except Exception:
+        print('Could not insert the new playlist')
+        return '100'
+
+    return jsonify('200')
 
 @app.after_request
 def after_request(response):

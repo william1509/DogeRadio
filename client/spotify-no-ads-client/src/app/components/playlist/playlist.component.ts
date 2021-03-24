@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { CreatePlaylistComponent } from '../create-playlist/create-playlist.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-playlist',
@@ -8,11 +9,15 @@ import { MusicGetterService } from 'src/app/services/music-getter/music-getter.s
     styleUrls: ['./playlist.component.scss']
 })
 export class PlaylistComponent implements OnInit {
-    constructor(public musicGetterService: MusicGetterService) { 
+    constructor(public musicGetterService: MusicGetterService, public dialog: MatDialog) { 
 
     }
 
     ngOnInit(): void {
+    }
+    
+    public CreatePlaylist(): void {
+        const dialogRef = this.dialog.open(CreatePlaylistComponent);
     }
 
 }

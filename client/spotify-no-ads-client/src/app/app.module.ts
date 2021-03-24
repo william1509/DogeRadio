@@ -18,6 +18,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { SearchComponent } from './components/search/search.component';  
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CreatePlaylistComponent } from './components/create-playlist/create-playlist.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     TopBarComponent,
     PlaylistComponent,
     SearchComponent,
+    CreatePlaylistComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     MatIconModule,
     RouterModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatDialogModule
 
   ],
   providers: [],

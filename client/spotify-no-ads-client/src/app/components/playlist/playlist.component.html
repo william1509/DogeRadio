@@ -3,13 +3,13 @@
         <span class="title-label">
             Your playlists
         </span>
-        <button class="add-button" color="primary" fxFlexOffset="5">
+        <button class="add-button" fxFlexOffset="5" (click)="CreatePlaylist()">
             <mat-icon [inline]="true">add</mat-icon>
         </button>
     </div>
         
     <div id="playlist-container" *ngFor="let playlist of musicGetterService.playlists">
-        <button mat-button color="primary" id="playlist-card" >
+        <button mat-button color="primary" id="playlist-card">
                 {{playlist.playlist_title}}
         </button>
     </div>

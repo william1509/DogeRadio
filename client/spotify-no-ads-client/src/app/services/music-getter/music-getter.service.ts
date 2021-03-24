@@ -45,10 +45,14 @@ export class MusicGetterService {
     public GetPlaylists(): void {
         this.playlists = [];
         this.httpClient.request('GET', url + '/playlists', { responseType: 'text' }).subscribe(response => {
-            console.log(response);
-
             this.playlists = JSON.parse(response);
-            console.log(this.playlists)
+        });
+    }
+
+    public CreatePlaylist(playlistName: string) {
+        const params = new HttpParams({ fromString: 'name=' + playlistName });
+        this.httpClient.request('POST', url + '/add/playlist', { responseType: 'text' , params}).subscribe(response => {
+            console.log(response);
         });
     }
 }
