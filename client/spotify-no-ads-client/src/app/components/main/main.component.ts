@@ -21,24 +21,11 @@ export class MainComponent implements OnInit {
 
     
 
-    public VolumeChanged(event: Event): void {
-        this.musicPlayerService.audioPlayerElement.volume = parseInt((event.target as HTMLInputElement).value) / 100;
-    }
 
 
 
-    public PlayClicked(): void {
-        this.musicPlayerService.playState = !this.musicPlayerService.playState;
-        var button = document.getElementById('play-button') as HTMLButtonElement;
-        if(this.musicPlayerService.playState) {
-            button.style.backgroundImage = 'url(\'../../../assets/pause-button.png\')';
-            this.musicPlayerService.audioPlayerElement.play();
 
-        } else {
-            button.style.backgroundImage = 'url(\'../../../assets/play-button.png\')';
-            this.musicPlayerService.audioPlayerElement.pause();
-        }
-    }
+
 
     public AudioEnded(): void {
         var button = document.getElementById('play-button') as HTMLButtonElement;
@@ -52,10 +39,6 @@ export class MainComponent implements OnInit {
         progressSlider.value = currentProgress;
     }
 
-    public TimeChanged(): void {
-        let slider = document.getElementById('slider-progress') as HTMLInputElement; 
-        let currentTime = (parseInt(slider.value) / 1000) * this.musicPlayerService.audioPlayerElement.duration; 
-        this.musicPlayerService.audioPlayerElement.currentTime = currentTime;
-    }
+
 
 }

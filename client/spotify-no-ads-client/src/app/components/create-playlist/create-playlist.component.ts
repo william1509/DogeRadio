@@ -8,14 +8,21 @@ import { MusicGetterService } from 'src/app/services/music-getter/music-getter.s
     styleUrls: ['./create-playlist.component.scss']
 })
 export class CreatePlaylistComponent implements OnInit {
-
-    constructor(public dialogRef: MatDialogRef<CreatePlaylistComponent>, public musicGetterService: MusicGetterService) { }
+    public name: string;
+    constructor(public dialogRef: MatDialogRef<CreatePlaylistComponent>, public musicGetterService: MusicGetterService) {
+        this.name = '';
+     }
 
     ngOnInit(): void {
     }
 
     public CheckClicked(event: Event): void {
         let name = (document.getElementById('playlist-name-input') as HTMLInputElement).value;
-        this.musicGetterService.CreatePlaylist(name);
+        if(name.length !== 0) {
+            this.musicGetterService.CreatePlaylist(name);
+        } else {
+
+        }
+        
     }
 }

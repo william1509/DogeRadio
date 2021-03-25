@@ -1,8 +1,7 @@
 <div fxLayout="column" fxLayoutGap="10px">
-    <span class="label" color="primary">
-        Enter a name
-    </span>
-    <input type="text" id="playlist-name-input" maxlength="16">
+    <mat-form-field color="primary">
+        <input id="input" matInput placeholder="Enter your playlist name" [(ngModel)]="name">
+    </mat-form-field>
     <div fxLayout="row" fxLayoutAlign="end center" color="primary">
         <button class="add-button action-button" mat-dialog-close>
             <mat-icon class="cancel-button" [inline]="true">cancel</mat-icon>

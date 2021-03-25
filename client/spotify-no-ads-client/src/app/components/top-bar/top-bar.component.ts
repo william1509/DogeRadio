@@ -13,8 +13,4 @@ export class TopBarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  public GetPlaylists(): void {
-    this.musicGetterService.GetPlaylists();
-}
 }

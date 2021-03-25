@@ -14,10 +14,14 @@ export class PlaylistComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.musicGetterService.GetPlaylists();
+
     }
     
     public CreatePlaylist(): void {
-        const dialogRef = this.dialog.open(CreatePlaylistComponent);
+        const dialogRef = this.dialog.open(CreatePlaylistComponent, {
+            width: '30%'
+        });
     }
 
 }

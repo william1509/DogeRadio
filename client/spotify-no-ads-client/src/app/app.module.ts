@@ -20,6 +20,7 @@ import { SearchComponent } from './components/search/search.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CreatePlaylistComponent } from './components/create-playlist/create-playlist.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     PlaylistComponent,
     SearchComponent,
     CreatePlaylistComponent,
+    AudioPlayerComponent,
   ],
   imports: [
     BrowserModule,
