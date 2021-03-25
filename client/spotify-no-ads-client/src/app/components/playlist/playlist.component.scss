@@ -1,5 +1,4 @@
 #playlist-card {
-    margin-bottom: 20px;
     font-size: 20px;
     font-family: monospace;
     width: 100%;
@@ -27,4 +26,12 @@
 
 .add-button:hover {
     color:yellowgreen;
+}
+
+.delete-button{
+    color: red !important;
+}
+
+.delete-button:hover {
+    background-color: rgb(44, 0, 0);
 }

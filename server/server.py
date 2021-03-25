@@ -8,6 +8,8 @@ from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 
+videos = []
+
 @app.before_request
 def activate_job():
     
@@ -22,14 +24,18 @@ def download():
         songs = os.listdir('static/Musics/')
         video_id = request.args.get('name')     
         fileName = video_id + '.mp3'
+        print(videos)
         if fileName not in songs:
             ydl_opts = {'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}], 'outtmpl': 'static/Musics/' + video_id}
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 ydl.download(['https://www.youtube.com/watch?v=' + video_id])
             cursor = PSQLConnector.instance().conn.cursor()
+            #cursor.execute("insert into songs values (%s, %s) on conflict (song_id,) do nothing", [video_id])
             cursor.execute("insert into songs values (%s) on conflict (song_id) do nothing", [video_id])
+
         return app.send_static_file('Musics/{}.mp3'.format(video_id))
-    except Exception:   
+    except Exception:  
+        print('An internal error occured') 
         return abort(404)
         
 @app.route('/search', methods=['GET'])
@@ -37,8 +43,8 @@ def search():
     try:
         keywords = request.args.get('keyword')
         print(keywords)
-        response = VideosSearch(keywords, limit=5).result()
-        return response
+        videos = VideosSearch(keywords, limit=5).result()
+        return videos
     except Exception:
         print('Search failed')
         return '100'
@@ -58,16 +64,44 @@ def getPlaylist():
 
 @app.route('/add/playlist', methods=['POST'])
 def addPlaylist():
-    cursor = PSQLConnector.instance().conn.cursor()
+    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
     try:
         cursor.execute("insert into playlists_users(user_id, playlist_title) values (%s, %s)", [1, name])
+        cursor.execute("select * from playlists_users where user_id = %s and playlist_title = %s", [1, name])
 
     except Exception:
         print('Could not insert the new playlist')
         return '100'
+    rows = cursor.fetchall()
+    return jsonify(rows)
+
+@app.route('/rm/playlist', methods=['POST'])
+def deletePlaylist():
+    cursor = PSQLConnector.instance().conn.cursor()
+    name = request.args.get('name')
+    try:
+        cursor.execute("delete from playlists_users where playlist_id = %s", [name])
+
+    except Exception:
+        print('Could not delete the playlist')
+        return '100'
 
     return jsonify('200')
+
+@app.route('/playlists/songs', methods=['GET'])
+def getSongsInPlaylist():
+    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
+    
+    try:
+        cursor.execute("select song_id from playlists_users where user_id = '1'")
+    except Exception:
+        print('Could not retreive the songs')
+        return '100'
+
+    rows = cursor.fetchall()
+    return jsonify(rows)
+
 
 @app.after_request
 def after_request(response):

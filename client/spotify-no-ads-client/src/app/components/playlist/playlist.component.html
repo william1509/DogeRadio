@@ -8,9 +8,21 @@
         </button>
     </div>
         
-    <div id="playlist-container" *ngFor="let playlist of musicGetterService.playlists">
-        <button mat-button color="primary" id="playlist-card">
-                {{playlist.playlist_title}}
+    <div id="playlist-container" *ngFor="let playlist of musicGetterService.playlists" fxLayout="row" fxLayoutAlign="space-evenly center">
+        <button mat-button color="primary" id="playlist-card" (click)="ShowPlaylist(playlist)">
+            {{playlist.playlist_title}}
         </button>
+        <button mat-button color="primary">
+            <mat-icon>
+                play_arrow
+            </mat-icon>
+        </button>
+        <button mat-button class="delete-button" (click)="DeleteClicked(playlist)">
+            <mat-icon>
+                delete
+            </mat-icon>
+        </button>
+
+
     </div>
 </div>

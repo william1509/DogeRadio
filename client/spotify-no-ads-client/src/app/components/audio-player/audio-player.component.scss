@@ -33,6 +33,10 @@
     background-color: transparent;
     border-color: transparent;
     transition: background-image .3s ease;
+    border-radius: 10%;
+}
+#play-button:hover {
+    background-color: rgb(23, 34, 22);
 }
 
 #slider-progress {

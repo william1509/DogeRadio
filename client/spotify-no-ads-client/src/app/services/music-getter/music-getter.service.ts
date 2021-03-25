@@ -21,9 +21,6 @@ export class MusicGetterService {
         this.playlists = [];
     }
 
-    /**
-     * 
-     */
     public SearchForSong(keyword: string): void {
         this.songs = [];
         const params = new HttpParams({ fromString: 'keyword=' + keyword });
@@ -33,10 +30,6 @@ export class MusicGetterService {
         });        
     }
 
-    /**
-     * name
-     *
-     */
     public DownloadFromServer(video_id: string): Observable<Blob> {
         const params = new HttpParams({ fromString: 'name=' + video_id });
         return this.httpClient.request('GET', url + '/download', { responseType: 'blob', params });
@@ -52,8 +45,23 @@ export class MusicGetterService {
     public CreatePlaylist(playlistName: string) {
         const params = new HttpParams({ fromString: 'name=' + playlistName });
         this.httpClient.request('POST', url + '/add/playlist', { responseType: 'text' , params}).subscribe(response => {
-            console.log(response);
+            this.playlists.push(JSON.parse(response)[0]);
         });
+    }
+
+    public DeletePlaylist(playlist: Playlist) {
+        const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
+        this.httpClient.request('POST', url + '/rm/playlist', { responseType: 'text' , params}).subscribe(response => {
+            const index = this.playlists.indexOf(playlist);
+            if(index > -1) {
+                this.playlists.splice(index, 1);
+            }
+        });
+    }
+
+    public GetSongsInPlaylist(playlist: Playlist): Observable<any> {
+        const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
+        return this.httpClient.request('GET', url + '/playlists/songs', { responseType: 'json', params });
     }
 }
 

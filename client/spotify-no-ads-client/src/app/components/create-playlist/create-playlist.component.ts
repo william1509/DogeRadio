@@ -20,9 +20,6 @@ export class CreatePlaylistComponent implements OnInit {
         let name = (document.getElementById('playlist-name-input') as HTMLInputElement).value;
         if(name.length !== 0) {
             this.musicGetterService.CreatePlaylist(name);
-        } else {
-
-        }
-        
+        }         
     }
 }

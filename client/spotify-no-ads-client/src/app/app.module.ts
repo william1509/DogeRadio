@@ -21,6 +21,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CreatePlaylistComponent } from './components/create-playlist/create-playlist.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { SinglePlaylistComponent } from './components/single-playlist/single-playlist.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { AudioPlayerComponent } from './components/audio-player/audio-player.com
     SearchComponent,
     CreatePlaylistComponent,
     AudioPlayerComponent,
+    ConfirmationDialogComponent,
+    SinglePlaylistComponent,
   ],
   imports: [
     BrowserModule,
