@@ -3,6 +3,7 @@ import psycopg2
 class PSQLConnector(object):
     _instance = None
     conn = None
+    videos = []
     def __init__(self):
         raise RuntimeError('Call instance() instead')
 
