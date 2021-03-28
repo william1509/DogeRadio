@@ -16,16 +16,8 @@ export class MainComponent implements OnInit {
 
     ngOnInit(): void {
         this.musicPlayerService.audioPlayerElement = document.getElementById('player') as HTMLAudioElement;
+        this.musicGetterService.GetPlaylists();
     }
-    
-
-    
-
-
-
-
-
-
 
     public AudioEnded(): void {
         var button = document.getElementById('play-button') as HTMLButtonElement;
@@ -37,6 +29,10 @@ export class MainComponent implements OnInit {
         var progressSlider = document.getElementById('slider-progress') as HTMLInputElement;
         const currentProgress = Math.round((this.musicPlayerService.audioPlayerElement.currentTime / this.musicPlayerService.audioPlayerElement.duration) * 1000).toString();
         progressSlider.value = currentProgress;
+    }
+
+    public test(): void {
+        console.log(this.musicGetterService.playlists)
     }
 
 

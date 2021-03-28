@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
 import { MusicPlayerService } from 'src/app/services/music-player/music-player.service';
+import { Playlist } from 'src/app/services/Playlist';
+import { Video } from 'src/app/services/Video';
 
 @Component({
     selector: 'app-search',
@@ -9,12 +11,16 @@ import { MusicPlayerService } from 'src/app/services/music-player/music-player.s
 })
 export class SearchComponent implements OnInit {
     public keyword: string;
-
+    public selectedValue: string;
+    public showPlaylist: boolean[];
     constructor(public musicGetterService: MusicGetterService, public musicPlayerService: MusicPlayerService) {
+        this.showPlaylist = Array<boolean>(5);
         this.keyword = "";
+        this.selectedValue = 'Choose a playlist';
     }
 
     ngOnInit(): void {
+
     }
     public ButtonClicked(): void {
         if(this.keyword != '') {
@@ -41,5 +47,13 @@ export class SearchComponent implements OnInit {
         if(kEvent.key == 'Enter') {
             this.musicGetterService.SearchForSong(this.keyword);
         }
+    }
+
+    public PlaylistClicked(playlist: Playlist, song: Video): void {
+        this.ToggleShowPlaylist(song);
+    }
+
+    public ToggleShowPlaylist(song: Video) {
+        this.showPlaylist[this.musicGetterService.songs.indexOf(song)] = !this.showPlaylist[this.musicGetterService.songs.indexOf(song)]
     }
 }

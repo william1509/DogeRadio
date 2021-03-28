@@ -11,10 +11,18 @@
                 <button (click)="SongClicked(song.id, song.title)" class="song-button">
                     <p>{{song.title}}</p>
                     <p id="views-label">{{song.viewCount.text}}</p>
+                    <p id="views-label">{{song.duration}} min</p>
                 </button>
-                <button mat-button id="add-playlist-button">
-                    Add to playlist
-                </button>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+                    <button mat-button id="add-playlist-button" (click)="ToggleShowPlaylist(song)">
+                        Add to playlist
+                    </button>
+                    <mat-select placeholder="Choose a playlist" [(ngModel)]="selectedValue" name="food" *ngIf="showPlaylist[musicGetterService.songs.indexOf(song)]" fxFlex="30" >
+                        <mat-option *ngFor="let playlist of musicGetterService.playlists" [value]="playlist.playlist_title" (click)="PlaylistClicked(playlist, song)">
+                          {{playlist.playlist_title}}
+                        </mat-option>
+                    </mat-select>
+                </div>
                 
             </div>
         </li>

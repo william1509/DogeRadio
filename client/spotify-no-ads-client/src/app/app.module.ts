@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { SinglePlaylistComponent } from './components/single-playlist/single-playlist.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SinglePlaylistComponent } from './components/single-playlist/single-pla
     MatIconModule,
     RouterModule,
     FlexLayoutModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
 
   ],
   providers: [],

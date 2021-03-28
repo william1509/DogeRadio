@@ -16,7 +16,7 @@ export class PlaylistComponent implements OnInit {
 
     }
     ngOnInit(): void {
-        this.musicGetterService.GetPlaylists();
+        
 
     }
 

@@ -1,4 +1,4 @@
-# SpotifyNoAds
+# DogeRadio
 
 TODO
 create playlist and add songs to it
