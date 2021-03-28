@@ -42,14 +42,14 @@ export class MusicGetterService {
         });
     }
 
-    public CreatePlaylist(playlistName: string) {
+    public CreatePlaylist(playlistName: string): void {
         const params = new HttpParams({ fromString: 'name=' + playlistName });
         this.httpClient.request('POST', url + '/add/playlist', { responseType: 'text' , params}).subscribe(response => {
             this.playlists.push(JSON.parse(response)[0]);
         });
     }
 
-    public DeletePlaylist(playlist: Playlist) {
+    public DeletePlaylist(playlist: Playlist): void {
         const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
         this.httpClient.request('POST', url + '/rm/playlist', { responseType: 'text' , params}).subscribe(response => {
             const index = this.playlists.indexOf(playlist);
@@ -64,11 +64,11 @@ export class MusicGetterService {
         return this.httpClient.request('GET', url + '/playlists/songs', { responseType: 'json', params });
     }
 
-    public AddSongToPlaylist(playlist: Playlist, song: Video) {
+    public AddSongToPlaylist(playlist: Playlist, song: Video): void {
         let params = new HttpParams({ fromObject: {song: song.id, playlist: playlist.playlist_id.toString() }});
         //const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
         console.log(params);
-        return this.httpClient.request('POST', url + '/add/playlist/song', { responseType: 'json', params }).subscribe(response => {
+        this.httpClient.request('POST', url + '/add/playlist/song', { responseType: 'json', params }).subscribe(response => {
             console.log(response);
         });
     }

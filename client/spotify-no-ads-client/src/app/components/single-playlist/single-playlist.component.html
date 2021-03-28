@@ -1,1 +1,3 @@
-<p>single-playlist works!</p>
+<div *ngFor="let song of songs" fxLayout="column">
+    <button mat-button class="song-label">{{song.title}}</button>
+</div>
