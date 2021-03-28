@@ -104,7 +104,19 @@ def getSongsInPlaylist():
     rows = cursor.fetchall()
     return jsonify(rows)
 
+@app.route('/add/playlist/song', methods=['POST'])
+def addSongInPlaylist():
+    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
+    song = request.args.get('song')
+    playlist = request.args.get('playlist')
+    print(playlist)
+    try:
+        cursor.execute("insert into playlists_songs(playlist_id, song_id) values (%s, %s) on conflict (playlist_id, song_id) do nothing", [playlist, song])
+    except Exception as e:
+        print(e)
+        return '100'
 
+    return '200'
 @app.after_request
 def after_request(response):
     PSQLConnector.instance().conn.commit()

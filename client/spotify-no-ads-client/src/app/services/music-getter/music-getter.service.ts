@@ -63,5 +63,14 @@ export class MusicGetterService {
         const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
         return this.httpClient.request('GET', url + '/playlists/songs', { responseType: 'json', params });
     }
+
+    public AddSongToPlaylist(playlist: Playlist, song: Video) {
+        let params = new HttpParams({ fromObject: {song: song.id, playlist: playlist.playlist_id.toString() }});
+        //const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
+        console.log(params);
+        return this.httpClient.request('POST', url + '/add/playlist/song', { responseType: 'json', params }).subscribe(response => {
+            console.log(response);
+        });
+    }
 }
 

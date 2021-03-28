@@ -51,6 +51,7 @@ export class SearchComponent implements OnInit {
 
     public PlaylistClicked(playlist: Playlist, song: Video): void {
         this.ToggleShowPlaylist(song);
+        this.musicGetterService.AddSongToPlaylist(playlist, song);
     }
 
     public ToggleShowPlaylist(song: Video) {
