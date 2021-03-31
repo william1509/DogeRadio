@@ -27,21 +27,11 @@ export class SearchComponent implements OnInit {
             this.musicGetterService.SearchForSong(this.keyword);
         }
     }
-    public SongClicked(video_id: string, songTitle: string) {
-        this.musicGetterService.DownloadFromServer(video_id).subscribe(response => {
-            console.log('RESPONSE' + response);
-            var data_url = URL.createObjectURL(response);
-            this.musicPlayerService.audioPlayerElement.setAttribute('src', data_url);
-            var button = document.getElementById('play-button') as HTMLButtonElement;
-            var progressSlider = document.getElementById('slider-progress') as HTMLInputElement;
-            progressSlider.value = '1';
-            this.musicPlayerService.currentSongName = songTitle;
-            button.style.backgroundImage = 'url(\'../../../assets/pause-button.png\')';
-            this.musicPlayerService.playState = true;
-            this.musicPlayerService.audioPlayerElement.play();
+    public SongClicked(song: Video) {
+        this.musicPlayerService.PlayNow(song);
 
-        });
     }
+    
     public VerifyInput(event: Event): void {
         let kEvent = event as KeyboardEvent
         if(kEvent.key == 'Enter') {

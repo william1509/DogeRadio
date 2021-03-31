@@ -1,0 +1,11 @@
+<div class="main-container">
+    <span class="title-label">
+        Song queue
+    </span>
+    <div class="song-container">
+        <div class="song-card" *ngFor="let song of musicPlayerService.songQueue">
+            <button mat-button color="primary" class="playlist-card">{{song.title}}</button>
+        </div>
+    </div>
+
+</div>

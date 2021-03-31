@@ -12,9 +12,14 @@
         <button mat-button color="primary" id="playlist-card" (click)="ShowPlaylist(playlist)">
             {{playlist.playlist_title}}
         </button>
-        <button mat-button color="primary">
+        <button mat-button color="primary" (click)="PlayClicked(playlist, false)">
             <mat-icon>
                 play_arrow
+            </mat-icon>
+        </button>
+        <button mat-button color="primary" (click)="PlayClicked(playlist, true)">
+            <mat-icon>
+                shuffle
             </mat-icon>
         </button>
         <button mat-button class="delete-button" (click)="DeleteClicked(playlist)">
@@ -22,7 +27,5 @@
                 delete
             </mat-icon>
         </button>
-
-
     </div>
 </div>

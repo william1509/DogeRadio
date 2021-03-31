@@ -24,6 +24,7 @@ import { AudioPlayerComponent } from './components/audio-player/audio-player.com
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { SinglePlaylistComponent } from './components/single-playlist/single-playlist.component';
 import { MatSelectModule } from '@angular/material/select';
+import { QueueComponent } from './components/queue/queue.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatSelectModule } from '@angular/material/select';
     AudioPlayerComponent,
     ConfirmationDialogComponent,
     SinglePlaylistComponent,
+    QueueComponent,
   ],
   imports: [
     BrowserModule,

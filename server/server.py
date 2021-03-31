@@ -3,7 +3,7 @@ import json
 import os
 import youtube_dl
 from youtubesearchpython import VideosSearch
-from PSQLConnector import *
+from ServerHelper import *
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
@@ -13,7 +13,7 @@ app = Flask(__name__)
 def activate_job():
     
     try:
-        PSQLConnector.instance().connect()
+        ServerHelper.instance().connect()
     except Exception:
         print('Connected to the database')
 
@@ -39,12 +39,14 @@ def search():
     try:
         keywords = request.args.get('keyword')
         videos = VideosSearch(keywords, limit=5).result()
-        PSQLConnector.instance().videos = videos['result']
+        ServerHelper.instance().videos = videos['result']
 
-        cursor = PSQLConnector.instance().conn.cursor()
-        for vid in PSQLConnector.instance().videos:
+        cursor = ServerHelper.instance().conn.cursor()
+        for vid in ServerHelper.instance().videos:
+            # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
+            vid['song_id'] = vid.pop('id')
             cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id) values (%s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
-            [vid['id'], vid['title'], vid['publishedTime'], vid['duration'], vid['viewCount']['short'], vid['viewCount']['text'], vid['channel']['id']])
+            [vid['song_id'], vid['title'], vid['publishedTime'], vid['duration'], vid['viewCount']['short'], vid['viewCount']['text'], vid['channel']['id']])
 
         return videos
     except Exception as e:
@@ -53,7 +55,7 @@ def search():
 
 @app.route('/playlists', methods=['GET'])
 def getPlaylist():
-    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
     
     try:
         cursor.execute("select * from playlists_users where user_id = '1'")
@@ -66,7 +68,7 @@ def getPlaylist():
 
 @app.route('/add/playlist', methods=['POST'])
 def addPlaylist():
-    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
     try:
         cursor.execute("insert into playlists_users(user_id, playlist_title) values (%s, %s)", [1, name])
@@ -80,7 +82,7 @@ def addPlaylist():
 
 @app.route('/rm/playlist', methods=['POST'])
 def deletePlaylist():
-    cursor = PSQLConnector.instance().conn.cursor()
+    cursor = ServerHelper.instance().conn.cursor()
     name = request.args.get('name')
     try:
         cursor.execute("delete from playlists_users where playlist_id = %s", [name])
@@ -93,10 +95,10 @@ def deletePlaylist():
 
 @app.route('/playlists/songs', methods=['GET'])
 def getSongsInPlaylist():
-    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
     try:
-        cursor.execute("select title from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s", [name])
+        cursor.execute("select title, playlists_songs.song_id from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s", [name])
     except Exception as e:
         print(e)
         return '100'
@@ -106,7 +108,7 @@ def getSongsInPlaylist():
 
 @app.route('/add/playlist/song', methods=['POST'])
 def addSongInPlaylist():
-    cursor = PSQLConnector.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
     song = request.args.get('song')
     playlist = request.args.get('playlist')
     print(playlist)
@@ -119,10 +121,10 @@ def addSongInPlaylist():
     return '200'
 @app.after_request
 def after_request(response):
-    PSQLConnector.instance().conn.commit()
+    ServerHelper.instance().conn.commit()
     try:
         print('Closing connection')
-        PSQLConnector.instance().conn.close()
+        ServerHelper.instance().conn.close()
     except Exception:
         print('An error occured while close the connection to the database')
 

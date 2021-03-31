@@ -10,15 +10,17 @@ import { Video } from 'src/app/services/Video';
     styleUrls: ['./single-playlist.component.scss']
 })
 export class SinglePlaylistComponent implements OnInit {
-
+    public playlistEmpty: boolean;
     public songs: Video[];
     constructor(@Inject(MAT_DIALOG_DATA) public playlist: Playlist, public musicGetterService: MusicGetterService) {
         this.songs = [];
+        this.playlistEmpty = true;
     }
 
     ngOnInit(): void {
         this.musicGetterService.GetSongsInPlaylist(this.playlist).subscribe(response => {
             this.songs = response;
+            this.playlistEmpty = this.songs.length === 0;
         });
     }
 

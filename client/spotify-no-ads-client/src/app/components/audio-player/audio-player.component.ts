@@ -14,13 +14,12 @@ export class AudioPlayerComponent implements OnInit {
     }
     public PlayClicked(): void {
         this.musicPlayerService.playState = !this.musicPlayerService.playState;
-        var button = document.getElementById('play-button') as HTMLButtonElement;
         if (this.musicPlayerService.playState) {
-            button.style.backgroundImage = 'url(\'../../../assets/pause-button.png\')';
+            this.musicPlayerService.buttonLogo = 'pause';
             this.musicPlayerService.audioPlayerElement.play();
 
         } else {
-            button.style.backgroundImage = 'url(\'../../../assets/play-button.png\')';
+            this.musicPlayerService.buttonLogo = 'play_arrow';
             this.musicPlayerService.audioPlayerElement.pause();
         }
     }

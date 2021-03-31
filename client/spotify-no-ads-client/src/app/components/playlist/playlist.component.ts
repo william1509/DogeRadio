@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
 import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
 import { CreatePlaylistComponent } from '../create-playlist/create-playlist.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { Playlist } from 'src/app/services/Playlist';
 import { SinglePlaylistComponent } from '../single-playlist/single-playlist.component';
+import { MusicPlayerService } from 'src/app/services/music-player/music-player.service';
+import { Video } from 'src/app/services/Video';
 
 @Component({
     selector: 'app-playlist',
@@ -12,7 +14,7 @@ import { SinglePlaylistComponent } from '../single-playlist/single-playlist.comp
     styleUrls: ['./playlist.component.scss']
 })
 export class PlaylistComponent implements OnInit {
-    constructor(public musicGetterService: MusicGetterService, public dialog: MatDialog) {
+    constructor(public musicGetterService: MusicGetterService, public musicPlayerService: MusicPlayerService, public dialog: MatDialog) {
 
     }
     ngOnInit(): void {
@@ -44,6 +46,10 @@ export class PlaylistComponent implements OnInit {
             width: '30%',
             data: playlist
         });
+    }
+    
+    public PlayClicked(playlist: Playlist, shuffle: boolean): void {
+        this.musicPlayerService.PlayPlaylist(playlist, shuffle);
     }
 
 }

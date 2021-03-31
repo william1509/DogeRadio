@@ -23,6 +23,8 @@ export class MainComponent implements OnInit {
         var button = document.getElementById('play-button') as HTMLButtonElement;
         button.style.backgroundImage = 'url(\'../../../assets/play-button.png\')';
         this.musicPlayerService.playState = false;
+        this.musicPlayerService.songQueue.dequeue();
+        this.musicPlayerService.PlayNext();
     }
 
     public TimeUpdate(): void {
@@ -30,11 +32,5 @@ export class MainComponent implements OnInit {
         const currentProgress = Math.round((this.musicPlayerService.audioPlayerElement.currentTime / this.musicPlayerService.audioPlayerElement.duration) * 1000).toString();
         progressSlider.value = currentProgress;
     }
-
-    public test(): void {
-        console.log(this.musicGetterService.playlists)
-    }
-
-
 
 }

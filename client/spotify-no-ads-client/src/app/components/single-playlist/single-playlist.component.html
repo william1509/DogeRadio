@@ -1,3 +1,7 @@
+<div *ngIf="playlistEmpty">
+    Your playlist is empty
+</div>
 <div *ngFor="let song of songs" fxLayout="column">
     <button mat-button class="song-label">{{song.title}}</button>
 </div>
+

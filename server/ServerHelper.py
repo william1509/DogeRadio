@@ -1,6 +1,6 @@
 import psycopg2
 
-class PSQLConnector(object):
+class ServerHelper(object):
     _instance = None
     conn = None
     videos = []

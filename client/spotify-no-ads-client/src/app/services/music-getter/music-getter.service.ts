@@ -65,12 +65,25 @@ export class MusicGetterService {
     }
 
     public AddSongToPlaylist(playlist: Playlist, song: Video): void {
-        let params = new HttpParams({ fromObject: {song: song.id, playlist: playlist.playlist_id.toString() }});
+        let params = new HttpParams({ fromObject: {song: song.song_id, playlist: playlist.playlist_id.toString() }});
         //const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
-        console.log(params);
         this.httpClient.request('POST', url + '/add/playlist/song', { responseType: 'json', params }).subscribe(response => {
             console.log(response);
         });
     }
+
+    public SetPlaylistQueue(playlist: Playlist): void {
+        
+    }
+
+
+    /*this.musicGetterService.GetSongsInPlaylist(playlist).subscribe(response => {
+        let videoArray = response as Video[];
+        
+        for(let i in videoArray) {
+            this.musicPlayerService.songQueue.enqueue(videoArray[i]);
+        }
+        this.musicPlayerService.PlayNext();        
+    });*/
 }
 

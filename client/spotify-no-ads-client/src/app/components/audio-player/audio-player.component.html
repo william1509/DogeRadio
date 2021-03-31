@@ -1,11 +1,11 @@
-<div id="main-container">
+<div class="main-container" fxLayout="column" fxLayoutAlign="space-around center">
     <p id="music-playing-label">{{musicPlayerService.currentSongName}}</p>
-    <span id="play-button-container">
-        <button id="play-button" (click)="PlayClicked()"></button>
-    </span>
+    <button mat-button class="play-button" color="primary" (click)="PlayClicked()">
+        <mat-icon [inline]="true" id="button-logo">{{musicPlayerService.buttonLogo}}</mat-icon>
+    </button>
     <input type="range" min="1" max="1000" value="1" id="slider-progress" (change)="TimeChanged()">
     <div id="volume-container">
         <input type="range" min="1" max="100" value="50" id="slider-audio" (change)="VolumeChanged($event)">
-        <img id="volume-image" src="../../../assets/volume.png" alt="Volume logo" width="5%" />
+        <mat-icon class="volume-image" color="primary">volume_up</mat-icon>
     </div>
 </div>

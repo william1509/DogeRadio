@@ -8,7 +8,7 @@
     <ul id="songs-container">
         <li class="list-item" *ngFor="let song of this.musicGetterService.songs">
             <div class="song-container">
-                <button (click)="SongClicked(song.id, song.title)" class="song-button">
+                <button (click)="SongClicked(song)" class="song-button">
                     <p>{{song.title}}</p>
                     <p id="views-label">{{song.viewCount.text}}</p>
                     <p id="views-label">{{song.duration}} min</p>

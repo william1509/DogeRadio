@@ -27,7 +27,7 @@ export interface Accessibility {
 }
 export interface Video {
     type: string;
-    id: string;
+    song_id: string;
     title: string;
     publishedTime: string;
     duration: string;
