@@ -13,10 +13,8 @@ export class SearchComponent implements OnInit {
     public keyword: string;
     public selectedValue: string;
     public showPlaylist: boolean[];
-    public showSpinner: boolean[];
     constructor(public musicGetterService: MusicGetterService, public musicPlayerService: MusicPlayerService) {
         this.showPlaylist = Array<boolean>(5);
-        this.showSpinner = Array<boolean>(5);
         this.keyword = "";
         this.selectedValue = 'Choose a playlist';
     }
@@ -51,6 +49,7 @@ export class SearchComponent implements OnInit {
     }
 
     public AddToQueue(song: Video): void {
+        this.musicPlayerService.AddToSongQueue(song);
         this.musicPlayerService.songQueue.enqueue(song);
     }
 }

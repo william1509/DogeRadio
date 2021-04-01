@@ -15,8 +15,9 @@ export class MusicPlayerService {
     public playState: boolean;
     public songQueue: Queue<Video>;
     public buttonLogo: string;
-
+    public isLoading: boolean[];
     constructor(public musicGetterService: MusicGetterService) {
+        this.isLoading = new Array<boolean>(5);
         this.currentSong = this.DefaultCurrentSong();
         this.buttonLogo = 'play_arrow';
         this.playState = false;
@@ -59,9 +60,11 @@ export class MusicPlayerService {
     }
 
     public PlaySong(song: Video): void {
+        this.isLoading[this.musicGetterService.songs.indexOf(song)] = true;
         this.musicGetterService.DownloadFromServer(song.song_id).subscribe(response => {
             let data_url = URL.createObjectURL(response);
             this.audioPlayerElement.src = data_url;
+            this.isLoading[this.musicGetterService.songs.indexOf(song)] = false;
             this.audioPlayerElement.play();
             this.SongStarted(song);
         });
@@ -95,6 +98,14 @@ export class MusicPlayerService {
         }
     
         return array; 
+    }
+
+    public AddToSongQueue(song: Video) {
+        for(let vid in this.songQueue.toArray()) {
+            if(this.songQueue.toArray()[vid] === song) {
+                console.log('already in queue')
+            }
+        }
     }
 
 }

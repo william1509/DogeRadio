@@ -29,7 +29,7 @@
                     </button>
                 </div>
             </div>
-            <mat-spinner *ngIf="showPlaylist[musicGetterService.songs.indexOf(song)]" mode="indeterminate"></mat-spinner>
+            <mat-spinner *ngIf="musicPlayerService.isLoading[musicGetterService.songs.indexOf(song)]" mode="indeterminate"></mat-spinner>
         </li>
     </ul>
 </div>
