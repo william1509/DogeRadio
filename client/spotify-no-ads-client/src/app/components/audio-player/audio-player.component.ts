@@ -23,6 +23,13 @@ export class AudioPlayerComponent implements OnInit {
             this.musicPlayerService.audioPlayerElement.pause();
         }
     }
+    public NextClicked(): void {
+        this.musicPlayerService.PlayNext();
+    }
+    public PreviousNext(): void {
+        
+    }
+
     public TimeChanged(): void {
         let slider = document.getElementById('slider-progress') as HTMLInputElement; 
         let currentTime = (parseInt(slider.value) / 1000) * this.musicPlayerService.audioPlayerElement.duration; 
@@ -32,4 +39,8 @@ export class AudioPlayerComponent implements OnInit {
         this.musicPlayerService.audioPlayerElement.volume = parseInt((event.target as HTMLInputElement).value) / 100;
     }
 
+    public CheckIfEmptySong(): boolean {
+        return this.musicPlayerService.currentSong.song_id === '';
+    }
+    
 }

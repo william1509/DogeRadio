@@ -49,12 +49,13 @@ mat-form-field {
 
 .list-item {
     margin-top: 20px;
-    display: block;
-   
+  
 }
 
 .song-container {
-    width: 100%;
+    width: 80%;
+    background-color: rgba(59, 59, 59, 0.1);
+    border-radius: 20px;
 }
 
 #add-playlist-button {

@@ -13,8 +13,10 @@ export class SearchComponent implements OnInit {
     public keyword: string;
     public selectedValue: string;
     public showPlaylist: boolean[];
+    public showSpinner: boolean[];
     constructor(public musicGetterService: MusicGetterService, public musicPlayerService: MusicPlayerService) {
         this.showPlaylist = Array<boolean>(5);
+        this.showSpinner = Array<boolean>(5);
         this.keyword = "";
         this.selectedValue = 'Choose a playlist';
     }
@@ -29,7 +31,7 @@ export class SearchComponent implements OnInit {
     }
     public SongClicked(song: Video) {
         this.musicPlayerService.PlayNow(song);
-
+        
     }
     
     public VerifyInput(event: Event): void {
@@ -44,7 +46,11 @@ export class SearchComponent implements OnInit {
         this.musicGetterService.AddSongToPlaylist(playlist, song);
     }
 
-    public ToggleShowPlaylist(song: Video) {
+    public ToggleShowPlaylist(song: Video): void {
         this.showPlaylist[this.musicGetterService.songs.indexOf(song)] = !this.showPlaylist[this.musicGetterService.songs.indexOf(song)]
+    }
+
+    public AddToQueue(song: Video): void {
+        this.musicPlayerService.songQueue.enqueue(song);
     }
 }

@@ -20,10 +20,8 @@ export class MainComponent implements OnInit {
     }
 
     public AudioEnded(): void {
-        var button = document.getElementById('play-button') as HTMLButtonElement;
-        button.style.backgroundImage = 'url(\'../../../assets/play-button.png\')';
+        this.musicPlayerService.buttonLogo = 'play_arrow';
         this.musicPlayerService.playState = false;
-        this.musicPlayerService.songQueue.dequeue();
         this.musicPlayerService.PlayNext();
     }
 

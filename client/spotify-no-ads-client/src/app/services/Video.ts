@@ -38,6 +38,5 @@ export interface Video {
     accessibility: Accessibility;
     link: string;
     shelfTitle: string;
-
 }
 

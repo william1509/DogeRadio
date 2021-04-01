@@ -13,4 +13,9 @@ export class QueueComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    public CheckIfQueueEmpty(): boolean {
+
+        return this.musicPlayerService.songQueue.length === 0 && this.musicPlayerService.currentSong.song_id === '';
+    }
+
 }

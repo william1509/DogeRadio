@@ -1,8 +1,18 @@
 <div class="main-container" fxLayout="column" fxLayoutAlign="space-around center">
-    <p id="music-playing-label">{{musicPlayerService.currentSongName}}</p>
-    <button mat-button class="play-button" color="primary" (click)="PlayClicked()">
-        <mat-icon [inline]="true" id="button-logo">{{musicPlayerService.buttonLogo}}</mat-icon>
-    </button>
+    <p id="music-playing-label" *ngIf="CheckIfEmptySong()">No song playing</p>
+    <p id="music-playing-label">{{musicPlayerService.currentSong.title}}</p>
+    <div fxLayout="row" fxFill fxLayoutAlign="space-evenly center">
+        <button mat-button class="buttons" color="primary" (click)="PreviousNext()">
+            <mat-icon [inline]="true" id="button-logo">skip_previous</mat-icon>
+        </button>
+        <button mat-button class="buttons" color="primary" (click)="PlayClicked()">
+            <mat-icon [inline]="true" id="button-logo">{{musicPlayerService.buttonLogo}}</mat-icon>
+        </button>
+        <button mat-button class="buttons" color="primary" (click)="NextClicked()">
+            <mat-icon [inline]="true" id="button-logo">skip_next</mat-icon>
+        </button>
+    </div>
+    
     <input type="range" min="1" max="1000" value="1" id="slider-progress" (change)="TimeChanged()">
     <div id="volume-container">
         <input type="range" min="1" max="100" value="50" id="slider-audio" (change)="VolumeChanged($event)">

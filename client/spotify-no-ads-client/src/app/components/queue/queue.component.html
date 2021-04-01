@@ -2,9 +2,10 @@
     <div class="title-label">
         Song queue
     </div>
-    <div class="empty-label" *ngIf="musicPlayerService.songQueue.length === 0">
+    <div class="empty-label" *ngIf="CheckIfQueueEmpty()">
         The queue is empty !
     </div>
+    <button mat-button color="primary" class="playlist-card current-song">{{musicPlayerService.currentSong.title}}</button>
     <div class="song-container" >
         <div class="song-card" *ngFor="let song of musicPlayerService.songQueue">
             <button mat-button color="primary" class="playlist-card">{{song.title}}</button>

@@ -25,6 +25,9 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { SinglePlaylistComponent } from './components/single-playlist/single-playlist.component';
 import { MatSelectModule } from '@angular/material/select';
 import { QueueComponent } from './components/queue/queue.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,10 @@ import { QueueComponent } from './components/queue/queue.component';
     RouterModule,
     FlexLayoutModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule
 
   ],
   providers: [],
