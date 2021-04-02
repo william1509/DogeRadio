@@ -76,14 +76,5 @@ export class MusicGetterService {
         
     }
 
-
-    /*this.musicGetterService.GetSongsInPlaylist(playlist).subscribe(response => {
-        let videoArray = response as Video[];
-        
-        for(let i in videoArray) {
-            this.musicPlayerService.songQueue.enqueue(videoArray[i]);
-        }
-        this.musicPlayerService.PlayNext();        
-    });*/
 }
 

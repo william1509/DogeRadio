@@ -1,19 +1,21 @@
-from flask import Flask, render_template, request, redirect, jsonify, send_file, send_from_directory, safe_join, abort
+from flask import g, Flask, render_template, request, redirect, jsonify, send_file, send_from_directory, safe_join, abort
 import json
 import os
 import youtube_dl
 from youtubesearchpython import VideosSearch
-from ServerHelper import *
-import psycopg2
+from ServerHelper import ServerHelper
 from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
+serverHelper = ServerHelper()
 
 @app.before_request
 def activate_job():
     
     try:
-        ServerHelper.instance().connect()
+        if not hasattr(g, 'db_conn'):
+            g.db_conn = serverHelper.connect_db()
+        
     except Exception:
         print('Connected to the database')
 
@@ -39,10 +41,10 @@ def search():
     try:
         keywords = request.args.get('keyword')
         videos = VideosSearch(keywords, limit=5).result()
-        ServerHelper.instance().videos = videos['result']
+        g.videos = videos['result']
 
-        cursor = ServerHelper.instance().conn.cursor()
-        for vid in ServerHelper.instance().videos:
+        cursor = g.db_conn.cursor()
+        for vid in g.videos:
             # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
             vid['song_id'] = vid.pop('id')
             cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id) values (%s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
@@ -55,7 +57,7 @@ def search():
 
 @app.route('/playlists', methods=['GET'])
 def getPlaylist():
-    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     
     try:
         cursor.execute("select * from playlists_users where user_id = '1'")
@@ -68,7 +70,7 @@ def getPlaylist():
 
 @app.route('/add/playlist', methods=['POST'])
 def addPlaylist():
-    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
     try:
         cursor.execute("insert into playlists_users(user_id, playlist_title) values (%s, %s)", [1, name])
@@ -82,7 +84,7 @@ def addPlaylist():
 
 @app.route('/rm/playlist', methods=['POST'])
 def deletePlaylist():
-    cursor = ServerHelper.instance().conn.cursor()
+    cursor = g.db_conn.cursor()
     name = request.args.get('name')
     try:
         cursor.execute("delete from playlists_users where playlist_id = %s", [name])
@@ -95,7 +97,7 @@ def deletePlaylist():
 
 @app.route('/playlists/songs', methods=['GET'])
 def getSongsInPlaylist():
-    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
     try:
         cursor.execute("select title, playlists_songs.song_id from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s", [name])
@@ -108,7 +110,7 @@ def getSongsInPlaylist():
 
 @app.route('/add/playlist/song', methods=['POST'])
 def addSongInPlaylist():
-    cursor = ServerHelper.instance().conn.cursor(cursor_factory=RealDictCursor)
+    cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     song = request.args.get('song')
     playlist = request.args.get('playlist')
     print(playlist)
@@ -121,10 +123,10 @@ def addSongInPlaylist():
     return '200'
 @app.after_request
 def after_request(response):
-    ServerHelper.instance().conn.commit()
+    g.db_conn.commit()
     try:
+        serverHelper.close_db(g.db_conn)
         print('Closing connection')
-        ServerHelper.instance().conn.close()
     except Exception:
         print('An error occured while close the connection to the database')
 
