@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table'  
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { SearchComponent } from './components/search/search.component';  
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -28,6 +28,7 @@ import { QueueComponent } from './components/queue/queue.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SongReadyComponent } from './components/song-ready/song-ready.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ConfirmationDialogComponent,
     SinglePlaylistComponent,
     QueueComponent,
+    SongReadyComponent,
   ],
   imports: [
     BrowserModule,

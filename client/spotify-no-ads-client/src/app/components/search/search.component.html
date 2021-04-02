@@ -6,11 +6,11 @@
         <button mat-button id="go-button" (click)="ButtonClicked()">Go</button>
     </div>
     <ul id="songs-container">
-        <li class="list-item" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let song of this.musicGetterService.songs">
+        <li class="list-item" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let song of this.musicGetterService.searchedSongs">
             <div class="song-container" >
                 <button (click)="SongClicked(song)" class="song-button">
                     <p>{{song.title}}</p>
-                    <img src={{song.thumbnails[0].url}} alt="thumbnail">
+                    <img src={{song.thumbnails[0].url}} alt="thumbnail" width="100%">
                     <p id="views-label">{{song.viewCount.text}}</p>
                     <p id="views-label">{{song.duration}} min</p>
                 </button>
@@ -19,7 +19,7 @@
                         Add to playlist
                     </button>
                     
-                    <mat-select placeholder="Choose a playlist" [(ngModel)]="selectedValue" name="food" *ngIf="showPlaylist[musicGetterService.songs.indexOf(song)]" fxFlex="30" >
+                    <mat-select placeholder="Choose a playlist" [(ngModel)]="selectedValue" name="food" *ngIf="showPlaylist[musicGetterService.searchedSongs.indexOf(song)]" fxFlex="30" >
                         <mat-option *ngFor="let playlist of musicGetterService.playlists" [value]="playlist.playlist_title" (click)="PlaylistClicked(playlist, song)">
                           {{playlist.playlist_title}}
                         </mat-option>
@@ -29,7 +29,7 @@
                     </button>
                 </div>
             </div>
-            <mat-spinner *ngIf="musicPlayerService.isLoading[musicGetterService.songs.indexOf(song)]" mode="indeterminate"></mat-spinner>
+            <mat-spinner *ngIf="musicPlayerService.isLoading[musicGetterService.searchedSongs.indexOf(song)]" mode="indeterminate"></mat-spinner>
         </li>
     </ul>
 </div>

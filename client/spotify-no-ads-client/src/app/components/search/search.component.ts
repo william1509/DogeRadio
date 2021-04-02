@@ -45,11 +45,11 @@ export class SearchComponent implements OnInit {
     }
 
     public ToggleShowPlaylist(song: Video): void {
-        this.showPlaylist[this.musicGetterService.songs.indexOf(song)] = !this.showPlaylist[this.musicGetterService.songs.indexOf(song)]
+        this.showPlaylist[this.musicGetterService.searchedSongs.indexOf(song)] = !this.showPlaylist[this.musicGetterService.searchedSongs.indexOf(song)]
     }
 
     public AddToQueue(song: Video): void {
         this.musicPlayerService.AddToSongQueue(song);
-        this.musicPlayerService.songQueue.enqueue(song);
+
     }
 }

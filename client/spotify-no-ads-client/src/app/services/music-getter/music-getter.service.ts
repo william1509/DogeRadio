@@ -12,21 +12,21 @@ const url = 'http://localhost:5000';
 })
 
 export class MusicGetterService {
-    public songs: Video[];
+    public searchedSongs: Video[];
     public playlists: Playlist[];
 
 
     constructor(private httpClient: HttpClient) {
-        this.songs = [];
+        this.searchedSongs = [];
         this.playlists = [];
     }
 
     public SearchForSong(keyword: string): void {
-        this.songs = [];
+        this.searchedSongs = [];
         const params = new HttpParams({ fromString: 'keyword=' + keyword });
         this.httpClient.request('GET', url + '/search', { responseType: 'text', params }).subscribe(response => {
             const results = JSON.parse(response)
-            this.songs = results['result'];
+            this.searchedSongs = results['result'];
         });        
     }
 
@@ -66,14 +66,12 @@ export class MusicGetterService {
 
     public AddSongToPlaylist(playlist: Playlist, song: Video): void {
         let params = new HttpParams({ fromObject: {song: song.song_id, playlist: playlist.playlist_id.toString() }});
-        //const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
         this.httpClient.request('POST', url + '/add/playlist/song', { responseType: 'json', params }).subscribe(response => {
-            console.log(response);
         });
     }
 
-    public SetPlaylistQueue(playlist: Playlist): void {
-        
+    public GetReadySongs(): Observable<Object> {
+        return this.httpClient.request('GET', url + '/songs', { responseType: 'json' });
     }
 
 }

@@ -1,0 +1,9 @@
+<div class="title-label">
+    Ready to play
+</div>
+<div class="song-container" *ngFor="let song of readySongs" fxLayout="column" fxLayoutAlign="start left" fxFill>
+    <button mat-button color="primary" class="song-button">
+        {{song.title}}
+    </button>
+
+</div>

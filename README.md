@@ -1,6 +1,5 @@
 # DogeRadio
 
 TODO
-check if song in queue before adding
-check what happens if clicking many song at the same time in search
+check how to store song in database to show it on screen
 show what song are in the database

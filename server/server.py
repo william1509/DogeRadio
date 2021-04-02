@@ -11,7 +11,6 @@ serverHelper = ServerHelper()
 
 @app.before_request
 def activate_job():
-    
     try:
         if not hasattr(g, 'db_conn'):
             g.db_conn = serverHelper.connect_db()
@@ -30,10 +29,19 @@ def download():
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 ydl.download(['https://www.youtube.com/watch?v=' + video_id])
             
+        cursor = g.db_conn.cursor()
+        # We get the results of the query. Because we limit to 1 element, we can simply access the first element of the result
+        videosInfo = VideosSearch(video_id, limit=1).result()['result'][0]
+
+        # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
+        videosInfo['song_id'] = videosInfo.pop('id')
+
+        cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id) values (%s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
+        [videosInfo['song_id'], videosInfo['title'], videosInfo['publishedTime'], videosInfo['duration'], videosInfo['viewCount']['short'], videosInfo['viewCount']['text'], videosInfo['channel']['id']])
 
         return app.send_static_file('Musics/{}.mp3'.format(video_id))
-    except Exception:  
-        print('An internal error occured') 
+    except Exception as e:  
+        print(e) 
         return abort(404)
         
 @app.route('/search', methods=['GET'])
@@ -42,13 +50,9 @@ def search():
         keywords = request.args.get('keyword')
         videos = VideosSearch(keywords, limit=5).result()
         g.videos = videos['result']
-
-        cursor = g.db_conn.cursor()
         for vid in g.videos:
             # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
             vid['song_id'] = vid.pop('id')
-            cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id) values (%s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
-            [vid['song_id'], vid['title'], vid['publishedTime'], vid['duration'], vid['viewCount']['short'], vid['viewCount']['text'], vid['channel']['id']])
 
         return videos
     except Exception as e:
@@ -121,6 +125,19 @@ def addSongInPlaylist():
         return '100'
 
     return '200'
+
+@app.route('/songs', methods=['GET'])
+def GetReadySongs():
+    cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("select * from songs")
+        rows = cursor.fetchall()
+    except Exception as e:
+        print(e)
+        return '100'
+
+    return jsonify(rows)
+
 @app.after_request
 def after_request(response):
     g.db_conn.commit()

@@ -60,11 +60,11 @@ export class MusicPlayerService {
     }
 
     public PlaySong(song: Video): void {
-        this.isLoading[this.musicGetterService.songs.indexOf(song)] = true;
+        this.isLoading[this.musicGetterService.searchedSongs.indexOf(song)] = true;
         this.musicGetterService.DownloadFromServer(song.song_id).subscribe(response => {
             let data_url = URL.createObjectURL(response);
             this.audioPlayerElement.src = data_url;
-            this.isLoading[this.musicGetterService.songs.indexOf(song)] = false;
+            this.isLoading[this.musicGetterService.searchedSongs.indexOf(song)] = false;
             this.audioPlayerElement.play();
             this.SongStarted(song);
         });
@@ -72,12 +72,11 @@ export class MusicPlayerService {
 
     public PlayPlaylist(playlist: Playlist, shuffle: boolean): void {
         this.songQueue = new Queue<Video>();
-        this.musicGetterService.SetPlaylistQueue(playlist);
         this.musicGetterService.GetSongsInPlaylist(playlist).subscribe(response => {
             let videoArray = response as Video[];
             if(shuffle) videoArray = this.ShuffleArray(videoArray);
             for(let i in videoArray) {
-                this.songQueue.enqueue(videoArray[i]);
+                this.AddToSongQueue(videoArray[i]);
             }
             this.PlayNext();        
         });
@@ -100,12 +99,15 @@ export class MusicPlayerService {
         return array; 
     }
 
-    public AddToSongQueue(song: Video) {
+    public AddToSongQueue(song: Video): boolean {
         for(let vid in this.songQueue.toArray()) {
             if(this.songQueue.toArray()[vid] === song) {
                 console.log('already in queue')
+                return false;
             }
         }
+        this.songQueue.enqueue(song);
+        return true;
     }
 
 }
