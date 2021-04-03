@@ -1,9 +1,11 @@
 <div class="title-label">
     Ready to play
 </div>
-<div class="song-container" *ngFor="let song of readySongs" fxLayout="column" fxLayoutAlign="start stretch">
-    <button mat-button color="primary" class="song-button">
-        {{song.title}}
-    </button>
 
+<div class="song-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+    <div *ngFor="let song of readySongs" >
+        <app-song-display [song]="song"></app-song-display>
+    
+    </div>
 </div>
+
