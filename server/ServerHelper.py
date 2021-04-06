@@ -1,30 +1,5 @@
 import psycopg2
-
-# class ServerHelper(object):
-#     _instance = None
-#     conn = None
-#     videos = []
-#     def __init__(self):
-#         raise RuntimeError('Call instance() instead')
-
-#     @classmethod
-#     def instance(cls):
-#         if cls._instance is None:
-#             print('Creating new instance')
-#             cls._instance = cls.__new__(cls)
-#             # Put any initialization here.
-#         return cls._instance
-
-#     @classmethod
-#     def connect(self):
-#         try:
-#             self.conn = psycopg2.connect(database="spotify_no_ads", user = "dev", password = "1234", host = "127.0.0.1", port = "5432")
-#         except Exception:
-#             print('Could not connect to the database')
-#     @classmethod
-#     def close(self):
-#         self.conn.close()
-
+from youtubesearchpython import VideosSearch
 
 class ServerHelper(object):
     def connect_db(self):
@@ -33,3 +8,24 @@ class ServerHelper(object):
 
     def close_db(self, db_connection):
         db_connection.close()
+
+    def addSongToDatabase(self, cursor, song_id):
+        # We get the results of the query. Because we limit to 1 element, we can simply access the first element of the result
+        videosInfo = VideosSearch(song_id, limit=1).result()['result'][0]
+
+        # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
+        videosInfo['song_id'] = videosInfo.pop('id')
+        cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id, thumbnail_url, description) values (%s, %s, %s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
+        [videosInfo['song_id'],
+         videosInfo['title'],
+         videosInfo['publishedTime'],
+         videosInfo['duration'],
+         videosInfo['viewCount']['short'],
+         videosInfo['viewCount']['text'],
+         videosInfo['channel']['id'],
+         videosInfo['thumbnails'][0]['url'],
+         videosInfo['descriptionSnippet'][0]['text']
+        ])
+
+
+

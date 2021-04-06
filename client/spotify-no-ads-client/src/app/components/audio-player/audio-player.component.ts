@@ -30,17 +30,34 @@ export class AudioPlayerComponent implements OnInit {
         
     }
 
-    public TimeChanged(): void {
-        let slider = document.getElementById('slider-progress') as HTMLInputElement; 
+    public TimeChanged(event: Event): void {
+        let slider = event.currentTarget as HTMLInputElement;
         let currentTime = (parseInt(slider.value) / 1000) * this.musicPlayerService.audioPlayerElement.duration; 
+        if(isNaN(currentTime)) {
+            return;
+        }
         this.musicPlayerService.audioPlayerElement.currentTime = currentTime;
     }
     public VolumeChanged(event: Event): void {
-        this.musicPlayerService.audioPlayerElement.volume = parseInt((event.target as HTMLInputElement).value) / 100;
+        console.log(parseFloat((event.currentTarget as HTMLInputElement).value) / 100);
+        this.musicPlayerService.audioPlayerElement.volume = parseFloat((event.currentTarget as HTMLInputElement).value) / 100;
     }
 
-    public CheckIfEmptySong(): boolean {
-        return this.musicPlayerService.currentSong.song_id === '';
+    public GetCurrentSong(): string {
+        if(this.musicPlayerService.currentSong.song_id === '') {
+            return 'No song playing';
+        }
+        return this.musicPlayerService.currentSong.title;
     }
-    
+
+    public ToggleMute(): void {
+        this.musicPlayerService.ToggleMute();
+    }
+
+    public ToggleMaxVolume(): void {
+        this.musicPlayerService.ToggleMaxVolume();
+    }
+    public GetVolumeValue(): number {
+        return this.musicPlayerService.audioPlayerElement.volume * 100;
+    }
 }

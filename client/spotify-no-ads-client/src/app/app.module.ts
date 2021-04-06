@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SongReadyComponent } from './components/song-ready/song-ready.component';
+import { SongDisplayComponent } from './components/song-display/song-display.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SongReadyComponent } from './components/song-ready/song-ready.component
     SinglePlaylistComponent,
     QueueComponent,
     SongReadyComponent,
+    SongDisplayComponent,
   ],
   imports: [
     BrowserModule,

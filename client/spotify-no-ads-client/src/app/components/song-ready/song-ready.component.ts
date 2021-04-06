@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
-import { Video } from 'src/app/services/Video';
+import { ParseToVideo, Video } from 'src/app/services/Video';
 
 @Component({
     selector: 'app-song-ready',
@@ -15,7 +15,10 @@ export class SongReadyComponent implements OnInit {
 
     ngOnInit(): void {
         this.musicGetterService.GetReadySongs().subscribe(response => {
-            this.readySongs = response as Video[];
+            let vid = Object.entries(response);
+            for(let i = 0; i < vid.length; i++) {
+                this.readySongs.push(ParseToVideo(vid[i][1]));
+            }
         })
     }
 

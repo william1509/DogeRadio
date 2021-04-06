@@ -3,7 +3,7 @@ import { Queue } from 'queue-typescript';
 import { Observable } from 'rxjs';
 import { MusicGetterService } from '../music-getter/music-getter.service';
 import { Playlist } from '../Playlist';
-import { Video } from '../Video';
+import { ParseToVideo, Video } from '../Video';
 
 @Injectable({
     providedIn: 'root'
@@ -15,16 +15,22 @@ export class MusicPlayerService {
     public playState: boolean;
     public songQueue: Queue<Video>;
     public buttonLogo: string;
-    public isLoading: boolean[];
+    public isLoading: boolean;
+    public oldVolume: number;
+    public sliderMusicProgression: number;
+    public sliderMusicEnabled: boolean;
     constructor(public musicGetterService: MusicGetterService) {
-        this.isLoading = new Array<boolean>(5);
+        this.sliderMusicEnabled = true;
+        this.sliderMusicProgression = 0;
+        this.isLoading = false;
         this.currentSong = this.DefaultCurrentSong();
         this.buttonLogo = 'play_arrow';
         this.playState = false;
         this.songQueue = new Queue<Video>();
+        this.oldVolume = 0;
     }
 
-    private DefaultCurrentSong(): Video {
+    public DefaultCurrentSong(): Video {
         return {type: "", song_id: "", title: "", publishedTime: "", 
                             duration: "", viewCount: {text: "", short: ""}, 
                             thumbnails: [{url: "", width: 0, height: 0}], 
@@ -45,8 +51,7 @@ export class MusicPlayerService {
     }
 
     public SongStarted(song: Video): void {
-        let progressSlider = document.getElementById('slider-progress') as HTMLInputElement;
-        progressSlider.value = '1';
+        this.sliderMusicProgression = 0;
         this.buttonLogo = 'pause';
         this.playState = true;
     }
@@ -60,11 +65,11 @@ export class MusicPlayerService {
     }
 
     public PlaySong(song: Video): void {
-        this.isLoading[this.musicGetterService.searchedSongs.indexOf(song)] = true;
+        this.isLoading = true;
         this.musicGetterService.DownloadFromServer(song.song_id).subscribe(response => {
             let data_url = URL.createObjectURL(response);
             this.audioPlayerElement.src = data_url;
-            this.isLoading[this.musicGetterService.searchedSongs.indexOf(song)] = false;
+            this.isLoading = false;
             this.audioPlayerElement.play();
             this.SongStarted(song);
         });
@@ -76,7 +81,8 @@ export class MusicPlayerService {
             let videoArray = response as Video[];
             if(shuffle) videoArray = this.ShuffleArray(videoArray);
             for(let i in videoArray) {
-                this.AddToSongQueue(videoArray[i]);
+                let vid = ParseToVideo(videoArray[i]);
+                this.AddToSongQueue(vid);
             }
             this.PlayNext();        
         });
@@ -100,6 +106,10 @@ export class MusicPlayerService {
     }
 
     public AddToSongQueue(song: Video): boolean {
+        if(song === this.currentSong) {
+            console.log('already in queue')
+            return false;
+        } 
         for(let vid in this.songQueue.toArray()) {
             if(this.songQueue.toArray()[vid] === song) {
                 console.log('already in queue')
@@ -110,4 +120,25 @@ export class MusicPlayerService {
         return true;
     }
 
+    public ToggleMute(): void {
+        if(this.audioPlayerElement.volume == 0.0) {
+            this.audioPlayerElement.volume = this.oldVolume;
+        } else {
+            this.oldVolume = this.audioPlayerElement.volume;
+            this.audioPlayerElement.volume = 0.0;
+        }
+    }
+
+    public ToggleMaxVolume(): void {
+        if(this.audioPlayerElement.volume == 1.0) {
+            this.audioPlayerElement.volume = this.oldVolume;
+        } else {
+            this.oldVolume = this.audioPlayerElement.volume;
+            this.audioPlayerElement.volume = 1.0;
+        }
+    }
+
+    public IsAudioPlaying(): boolean {
+        return this.audioPlayerElement.ended || !(this.audioPlayerElement.readyState > 2);
+    }
 }

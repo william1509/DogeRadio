@@ -30,15 +30,9 @@ def download():
                 ydl.download(['https://www.youtube.com/watch?v=' + video_id])
             
         cursor = g.db_conn.cursor()
-        # We get the results of the query. Because we limit to 1 element, we can simply access the first element of the result
-        videosInfo = VideosSearch(video_id, limit=1).result()['result'][0]
 
-        # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
-        videosInfo['song_id'] = videosInfo.pop('id')
-
-        cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id) values (%s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
-        [videosInfo['song_id'], videosInfo['title'], videosInfo['publishedTime'], videosInfo['duration'], videosInfo['viewCount']['short'], videosInfo['viewCount']['text'], videosInfo['channel']['id']])
-
+        serverHelper.addSongToDatabase(cursor, video_id)
+        
         return app.send_static_file('Musics/{}.mp3'.format(video_id))
     except Exception as e:  
         print(e) 
@@ -91,6 +85,7 @@ def deletePlaylist():
     name = request.args.get('name')
     try:
         cursor.execute("delete from playlists_users where playlist_id = %s", [name])
+        cursor.execute("delete from playlist_songs where playlist_id = %s", [name])
 
     except Exception:
         print('Could not delete the playlist')
@@ -102,9 +97,8 @@ def deletePlaylist():
 def getSongsInPlaylist():
     cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
-    print('here')
     try:
-        cursor.execute("select title, playlists_songs.song_id from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s", [name])
+        cursor.execute("select * from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s", [name])
     except Exception as e:
         print(e)
         return '100'
@@ -120,14 +114,8 @@ def addSongToPlaylist():
 
     try:
         cursor.execute("insert into playlists_songs(playlist_id, song_id) values (%s, %s) on conflict (playlist_id, song_id) do nothing", [playlist, song])
-        # We get the results of the query. Because we limit to 1 element, we can simply access the first element of the result
-        videosInfo = VideosSearch(song, limit=1).result()['result'][0]
 
-        # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
-        videosInfo['song_id'] = videosInfo.pop('id')
-
-        cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id) values (%s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
-        [videosInfo['song_id'], videosInfo['title'], videosInfo['publishedTime'], videosInfo['duration'], videosInfo['viewCount']['short'], videosInfo['viewCount']['text'], videosInfo['channel']['id']])
+        serverHelper.addSongToDatabase(cursor, song)
 
     except Exception as e:
         print(e)

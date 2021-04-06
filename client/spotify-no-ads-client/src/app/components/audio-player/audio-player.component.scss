@@ -4,7 +4,6 @@
 #music-playing-label {
     font-size: 30px;
     color: yellowgreen;
-    margin-bottom: 30px;
     line-height: 30px;
     white-space: normal;
     word-wrap: normal;
@@ -18,7 +17,6 @@
     border-color: transparent;
     width:  50px;
     height: 50px;
-    margin-bottom: 50px;
     font-size: 50px;
     border-radius: 10%;
 }
@@ -27,13 +25,11 @@
 }
 
 #slider-progress {
-    width: 75%;
     height: 15px;
     background: #19972e;
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
-    margin-bottom: 50px;
     border-radius: 20px;
 }
 
@@ -93,6 +89,12 @@
     cursor: pointer;
 }
 
-#volume-image {
-    background-color: transparent;
+.song-progress-container {
+    color:yellowgreen;
+    font-size: 20px;
+    font-family: monospace;
+}
+
+.volume-clicked {
+    background-color: #1c6929;
 }

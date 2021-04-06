@@ -1,7 +1,6 @@
-<div class="main-container" fxLayout="column" fxLayoutAlign="space-around center">
-    <p id="music-playing-label" *ngIf="CheckIfEmptySong()">No song playing</p>
-    <p id="music-playing-label">{{musicPlayerService.currentSong.title}}</p>
-    <div fxLayout="row" fxFill fxLayoutAlign="space-evenly center">
+<div class="main-container" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="50px">
+    <p id="music-playing-label">{{GetCurrentSong()}}</p>
+    <div fxLayout="row" fxFill fxLayoutAlign="space-around center">
         <button mat-button class="buttons" color="primary" (click)="PreviousNext()">
             <mat-icon [inline]="true" id="button-logo">skip_previous</mat-icon>
         </button>
@@ -12,10 +11,22 @@
             <mat-icon [inline]="true" id="button-logo">skip_next</mat-icon>
         </button>
     </div>
-    
-    <input type="range" min="1" max="1000" value="1" id="slider-progress" (change)="TimeChanged()">
-    <div id="volume-container">
-        <input type="range" min="1" max="100" value="50" id="slider-audio" (change)="VolumeChanged($event)">
-        <mat-icon class="volume-image" color="primary">volume_up</mat-icon>
+    <div class="song-progress-container" fxLayout="row" fxLayoutAlign="space-around stretch" fxFill>
+        {{(musicPlayerService.audioPlayerElement.currentTime).toFixed()}}
+        <input type="range" min="1" max="1000" value={{musicPlayerService.sliderMusicProgression}} [disabled]="musicPlayerService.IsAudioPlaying()" id="slider-progress" (change)="TimeChanged($event)" fxFlex="75">
+        {{(musicPlayerService.audioPlayerElement.duration).toFixed()}}
+
     </div>
+    
+    <div id="volume-container" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+        <button mat-button [ngClass]="{'volume-clicked' : musicPlayerService.audioPlayerElement.volume === 0.0}" (click)="ToggleMute()">
+            <mat-icon class="volume-image" color="primary">volume_off</mat-icon>
+        </button>
+        
+        <input type="range" min="1" max="100" [value]="GetVolumeValue()" id="slider-audio" (change)="VolumeChanged($event)">
+        <button mat-button [ngClass]="{'volume-clicked' : musicPlayerService.audioPlayerElement.volume === 1.0}" (click)="ToggleMaxVolume()">
+            <mat-icon class="volume-image" color="primary">volume_up</mat-icon>
+        </button>
+    </div>
+    <mat-spinner *ngIf="musicPlayerService.isLoading" color="primary" class="loading-spinner" diameter="50"></mat-spinner>
 </div>
