@@ -14,10 +14,18 @@ export class SongDisplayComponent implements OnInit {
     @Input()
     public song: Video;
 
+    @Input()
+    public showDetails: boolean;
+
+    @Input()
+    public showThumbnail: boolean;
+
     public selectedValue: string;
     public showPlaylist: boolean[];
 
     constructor(public musicPlayerService: MusicPlayerService, public musicGetterService: MusicGetterService) {
+        this.showDetails = true;
+        this.showThumbnail = true;
         this.selectedValue = 'WOOWO';
         this.song = this.musicPlayerService.DefaultCurrentSong();
         this.showPlaylist = Array<boolean>(5);

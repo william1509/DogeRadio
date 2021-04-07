@@ -1,7 +1,15 @@
-<div *ngIf="playlistEmpty">
+<div *ngIf="CheckIfPlaylistEmpty()">
     Your playlist is empty
 </div>
 <div *ngFor="let song of songs" fxLayout="column">
-    <button mat-button class="song-label">{{song.title}}</button>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-button class="song-label" fxFlex=90>{{song.title}}</button>
+        <button mat-button class="delete-button" fxFlex=10 (click)="DeleteClicked(song)">
+            <mat-icon>
+                delete
+            </mat-icon>
+        </button>
+    </div>
+    
 </div>
 

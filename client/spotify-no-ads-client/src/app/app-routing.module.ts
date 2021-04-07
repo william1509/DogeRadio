@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { QueueComponent } from './components/queue/queue.component';
 import { SearchComponent } from './components/search/search.component';
-import { SongReadyComponent } from './components/song-ready/song-ready.component';
+import { LibraryComponent } from './components/library/library.component';
 
 const routes: Routes = [
     { path: 'home', component: SearchComponent},
     { path: 'playlists', component: PlaylistComponent },
     { path: 'queue', component: QueueComponent },
-    { path: 'ready', component: SongReadyComponent },
+    { path: 'ready', component: LibraryComponent },
     { path: '',   redirectTo: '/home', pathMatch: 'full' },
   ];
 

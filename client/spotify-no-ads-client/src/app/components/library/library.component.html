@@ -1,0 +1,23 @@
+<div fxLayout="column">
+    <div fxLayout="row" fxLayoutGap="20px">
+        <div class="title-label">
+            Ready to play
+        </div>
+        <button mat-button color="primary" (click)="ToggleSearch()">
+            <mat-icon>
+                search
+            </mat-icon>
+        </button>
+    </div>
+    
+    <mat-form-field fxFlex=100 *ngIf="showSearch">
+        <input [autofocus]="true" matInput color="primary" class="search-bar" [(ngModel)]="keyword" placeholder="Type the name of a song">
+    </mat-form-field>
+    <div class="song-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+        <div *ngFor="let song of GetSongs()" >
+            <app-song-display [song]="song" [showThumbnail]="false" [showDetails]="false"></app-song-display>
+        </div>
+    </div>
+</div>
+
+

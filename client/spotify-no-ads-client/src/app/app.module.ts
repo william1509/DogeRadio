@@ -28,8 +28,9 @@ import { QueueComponent } from './components/queue/queue.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SongReadyComponent } from './components/song-ready/song-ready.component';
+import { LibraryComponent } from './components/library/library.component';
 import { SongDisplayComponent } from './components/song-display/song-display.component';
+import { AutofocusDirective } from './directives/autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -43,8 +44,9 @@ import { SongDisplayComponent } from './components/song-display/song-display.com
     ConfirmationDialogComponent,
     SinglePlaylistComponent,
     QueueComponent,
-    SongReadyComponent,
+    LibraryComponent,
     SongDisplayComponent,
+    AutofocusDirective,
   ],
   imports: [
     BrowserModule,

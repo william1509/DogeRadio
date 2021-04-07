@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { MusicPlayerService } from 'src/app/services/music-player/music-player.service';
 import { Playlist } from 'src/app/services/Playlist';
 import { Video } from 'src/app/services/Video';
 
@@ -10,18 +11,27 @@ import { Video } from 'src/app/services/Video';
     styleUrls: ['./single-playlist.component.scss']
 })
 export class SinglePlaylistComponent implements OnInit {
-    public playlistEmpty: boolean;
     public songs: Video[];
-    constructor(@Inject(MAT_DIALOG_DATA) public playlist: Playlist, public musicGetterService: MusicGetterService) {
+    constructor(@Inject(MAT_DIALOG_DATA) public playlist: Playlist,
+                public musicGetterService: MusicGetterService
+    ) {
         this.songs = [];
-        this.playlistEmpty = true;
     }
 
     ngOnInit(): void {
         this.musicGetterService.GetSongsInPlaylist(this.playlist).subscribe(response => {
             this.songs = response;
-            this.playlistEmpty = this.songs.length === 0;
         });
+    }
+
+    public CheckIfPlaylistEmpty(): boolean {
+        return this.songs.length === 0;
+    }
+
+    public DeleteClicked(song: Video): void {
+        const songIndex = this.songs.indexOf(song);
+        this.songs.splice(songIndex, 1);
+        this.musicGetterService.DeleteSongFromPlaylist(song, this.playlist);
     }
 
 }

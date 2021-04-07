@@ -1,3 +1,11 @@
 .song-label {
     white-space: normal;
 }
+
+.delete-button {
+    color: red;
+}
+
+.delete-button:hover {
+    background-color: rgb(44, 0, 0);
+}

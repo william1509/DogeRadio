@@ -141,4 +141,6 @@ export class MusicPlayerService {
     public IsAudioPlaying(): boolean {
         return this.audioPlayerElement.ended || !(this.audioPlayerElement.readyState > 2);
     }
+
+ 
 }

@@ -74,5 +74,12 @@ export class MusicGetterService {
         return this.httpClient.request('GET', url + '/songs', { responseType: 'json' });
     }
 
+    public DeleteSongFromPlaylist(song: Video, playlist: Playlist): void {
+        let params = new HttpParams({ fromObject: {song: song.song_id, playlist: playlist.playlist_id.toString() }});
+        this.httpClient.request('GET', url + '/rm/playlist/song', { responseType: 'json', params }).subscribe(response => {
+            console.log(response)
+        });
+    }
+
 }
 

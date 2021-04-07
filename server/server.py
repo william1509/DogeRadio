@@ -135,6 +135,19 @@ def GetReadySongs():
 
     return jsonify(rows)
 
+@app.route('/rm/playlist/song', methods=['GET'])
+def removeSongFromPlaylist():
+    song = request.args.get('song')
+    playlist = request.args.get('playlist')
+    cursor = g.db_conn.cursor()
+    try:
+        cursor.execute("delete from playlists_songs where playlist_id = %s and song_id = %s", [playlist, song])
+    except Exception as e:
+        print(e)
+        return '100'
+
+    return '200'
+
 @app.after_request
 def after_request(response):
     g.db_conn.commit()

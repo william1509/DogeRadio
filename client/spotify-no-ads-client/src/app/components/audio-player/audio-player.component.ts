@@ -60,4 +60,6 @@ export class AudioPlayerComponent implements OnInit {
     public GetVolumeValue(): number {
         return this.musicPlayerService.audioPlayerElement.volume * 100;
     }
+
+    
 }
