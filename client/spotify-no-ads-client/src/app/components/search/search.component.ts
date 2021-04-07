@@ -49,7 +49,7 @@ export class SearchComponent implements OnInit {
     }
 
     public AddToQueue(song: Video): void {
-        this.musicPlayerService.AddToSongQueue(song);
+        this.musicPlayerService.AddToSongsQueue([song]);
 
     }
 }

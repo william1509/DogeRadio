@@ -1,5 +1,6 @@
 .song-label {
     white-space: normal;
+    background-color: transparent;
 }
 
 .delete-button {
@@ -8,4 +9,8 @@
 
 .delete-button:hover {
     background-color: rgb(44, 0, 0);
+}
+
+.current-song {
+    background-color: rgba(22, 126, 22, 0.1);
 }

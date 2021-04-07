@@ -23,6 +23,8 @@ export class MainComponent implements OnInit {
     public AudioEnded(): void {
         this.musicPlayerService.buttonLogo = 'play_arrow';
         this.musicPlayerService.playState = false;
+        this.musicPlayerService.previousSongs.enqueue(this.musicPlayerService.currentSong);
+
         this.musicPlayerService.PlayNext();
     }
 

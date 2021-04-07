@@ -44,7 +44,7 @@ export class SongDisplayComponent implements OnInit {
     }
 
     public AddToQueue(song: Video): void {
-        this.musicPlayerService.AddToSongQueue(song);
+        this.musicPlayerService.AddToSongsQueue([song]);
         if(this.musicPlayerService.currentSong.song_id === '') {
             this.musicPlayerService.PlayNext();
         }
@@ -57,7 +57,4 @@ export class SongDisplayComponent implements OnInit {
         this.musicGetterService.AddSongToPlaylist(playlist, song);
     }
 
-    public test(): void {
-        console.log(this.song);
-    }
 }

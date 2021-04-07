@@ -30,8 +30,11 @@ export class MusicGetterService {
         });        
     }
 
-    public DownloadFromServer(video_id: string): Observable<Blob> {
-        const params = new HttpParams({ fromString: 'name=' + video_id });
+    public DownloadFromServer(song: Video): Observable<Blob> {
+        if(!song) {
+            return new Observable;
+        }
+        const params = new HttpParams({ fromString: 'name=' + song.song_id });
         return this.httpClient.request('GET', url + '/download', { responseType: 'blob', params });
     }
 

@@ -13,7 +13,8 @@ import { Video } from 'src/app/services/Video';
 export class SinglePlaylistComponent implements OnInit {
     public songs: Video[];
     constructor(@Inject(MAT_DIALOG_DATA) public playlist: Playlist,
-                public musicGetterService: MusicGetterService
+                public musicGetterService: MusicGetterService,
+                public musicPlayerService: MusicPlayerService
     ) {
         this.songs = [];
     }
@@ -32,6 +33,13 @@ export class SinglePlaylistComponent implements OnInit {
         const songIndex = this.songs.indexOf(song);
         this.songs.splice(songIndex, 1);
         this.musicGetterService.DeleteSongFromPlaylist(song, this.playlist);
+    }
+
+    public SongClicked(song: Video): void {
+        const index = this.songs.indexOf(song);
+        let songs = this.songs.slice(index);
+        console.log(songs);
+        this.musicPlayerService.PlaySongs(songs);
     }
 
 }

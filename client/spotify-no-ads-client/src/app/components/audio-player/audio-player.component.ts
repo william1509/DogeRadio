@@ -26,8 +26,8 @@ export class AudioPlayerComponent implements OnInit {
     public NextClicked(): void {
         this.musicPlayerService.PlayNext();
     }
-    public PreviousNext(): void {
-        
+    public PreviousClicked(): void {
+        this.musicPlayerService.PlayPrevious();
     }
 
     public TimeChanged(event: Event): void {
@@ -39,7 +39,6 @@ export class AudioPlayerComponent implements OnInit {
         this.musicPlayerService.audioPlayerElement.currentTime = currentTime;
     }
     public VolumeChanged(event: Event): void {
-        console.log(parseFloat((event.currentTarget as HTMLInputElement).value) / 100);
         this.musicPlayerService.audioPlayerElement.volume = parseFloat((event.currentTarget as HTMLInputElement).value) / 100;
     }
 

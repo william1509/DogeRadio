@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Queue } from 'queue-typescript';
-import { Observable } from 'rxjs';
 import { MusicGetterService } from '../music-getter/music-getter.service';
 import { Playlist } from '../Playlist';
 import { ParseToVideo, Video } from '../Video';
@@ -19,6 +18,8 @@ export class MusicPlayerService {
     public oldVolume: number;
     public sliderMusicProgression: number;
     public sliderMusicEnabled: boolean;
+    public previousSongs: Queue<Video>;
+
     constructor(public musicGetterService: MusicGetterService) {
         this.sliderMusicEnabled = true;
         this.sliderMusicProgression = 0;
@@ -26,6 +27,7 @@ export class MusicPlayerService {
         this.currentSong = this.DefaultCurrentSong();
         this.buttonLogo = 'play_arrow';
         this.playState = false;
+        this.previousSongs = new Queue<Video>();
         this.songQueue = new Queue<Video>();
         this.oldVolume = 0;
     }
@@ -57,16 +59,13 @@ export class MusicPlayerService {
     }
 
     public PlayNow(song: Video): void {
-        this.songQueue = new Queue<Video>();
         this.currentSong = song;
         this.PlaySong(song);
-        this.SongStarted(song);
-
     }
 
     public PlaySong(song: Video): void {
         this.isLoading = true;
-        this.musicGetterService.DownloadFromServer(song.song_id).subscribe(response => {
+        this.musicGetterService.DownloadFromServer(song).subscribe(response => {
             let data_url = URL.createObjectURL(response);
             this.audioPlayerElement.src = data_url;
             this.isLoading = false;
@@ -82,12 +81,11 @@ export class MusicPlayerService {
             if(shuffle) videoArray = this.ShuffleArray(videoArray);
             for(let i in videoArray) {
                 let vid = ParseToVideo(videoArray[i]);
-                this.AddToSongQueue(vid);
+                this.AddToSongsQueue([vid]);
             }
             this.PlayNext();        
         });
     }
-
 
     private ShuffleArray(array: Video[]): Video[] {
         let currentIndex = array.length, temporaryValue, randomIndex;
@@ -105,19 +103,20 @@ export class MusicPlayerService {
         return array; 
     }
 
-    public AddToSongQueue(song: Video): boolean {
-        if(song === this.currentSong) {
-            console.log('already in queue')
-            return false;
-        } 
-        for(let vid in this.songQueue.toArray()) {
-            if(this.songQueue.toArray()[vid] === song) {
+    public AddToSongsQueue(songs: Video[]): void {
+        for(let i in songs) {
+            if(songs[i] === this.currentSong) {
                 console.log('already in queue')
-                return false;
+                return;
+            } 
+            for(let vid in this.songQueue.toArray()) {
+                if(this.songQueue.toArray()[vid] === songs[i]) {
+                    console.log('already in queue')
+                    return;
+                }
             }
+            this.songQueue.enqueue(songs[i]);
         }
-        this.songQueue.enqueue(song);
-        return true;
     }
 
     public ToggleMute(): void {
@@ -140,6 +139,23 @@ export class MusicPlayerService {
 
     public IsAudioPlaying(): boolean {
         return this.audioPlayerElement.ended || !(this.audioPlayerElement.readyState > 2);
+    }
+
+    public PlaySongs(songs: Video[]): void {
+        this.songQueue = new Queue<Video>();
+        this.AddToSongsQueue(songs);
+        this.PlayNext();
+    }
+
+    public PlayPrevious(): void {
+        let previousSong = this.previousSongs.dequeue();
+        if(previousSong) {
+            this.songQueue.prepend(this.currentSong);
+            this.PlayNow(previousSong);
+            return;
+        }
+
+        console.log('No previous song')
     }
 
  
