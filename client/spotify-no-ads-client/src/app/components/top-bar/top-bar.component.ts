@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -9,7 +9,7 @@ import { MusicGetterService } from 'src/app/services/music-getter/music-getter.s
 })
 export class TopBarComponent implements OnInit {
 
-  constructor(private router: Router, private musicGetterService: MusicGetterService) { }
+  constructor(private router: Router, private BackendService: BackendService) { }
 
   ngOnInit(): void {
   }

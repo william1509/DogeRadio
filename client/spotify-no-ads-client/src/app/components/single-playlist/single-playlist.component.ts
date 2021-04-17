@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 import { MusicPlayerService } from 'src/app/services/music-player/music-player.service';
 import { Playlist } from 'src/app/services/Playlist';
 import { Video } from 'src/app/services/Video';
@@ -11,18 +11,24 @@ import { Video } from 'src/app/services/Video';
     styleUrls: ['./single-playlist.component.scss']
 })
 export class SinglePlaylistComponent implements OnInit {
+    @ViewChild('input', { static: false }) inputRef!: ElementRef;
+
     public songs: Video[];
+    public inputChanged: boolean = false;
+
+
     constructor(@Inject(MAT_DIALOG_DATA) public playlist: Playlist,
-                public musicGetterService: MusicGetterService,
+                public backendService: BackendService,
                 public musicPlayerService: MusicPlayerService
     ) {
         this.songs = [];
     }
 
     ngOnInit(): void {
-        this.musicGetterService.GetSongsInPlaylist(this.playlist).subscribe(response => {
+        this.backendService.GetSongsInPlaylist(this.playlist).subscribe(response => {
             this.songs = response;
         });
+
     }
 
     public CheckIfPlaylistEmpty(): boolean {
@@ -32,7 +38,7 @@ export class SinglePlaylistComponent implements OnInit {
     public DeleteClicked(song: Video): void {
         const songIndex = this.songs.indexOf(song);
         this.songs.splice(songIndex, 1);
-        this.musicGetterService.DeleteSongFromPlaylist(song, this.playlist);
+        this.backendService.DeleteSongFromPlaylist(song, this.playlist);
     }
 
     public SongClicked(song: Video): void {
@@ -42,4 +48,10 @@ export class SinglePlaylistComponent implements OnInit {
         this.musicPlayerService.PlaySongs(songs);
     }
 
+    public EditTitleClicked(): void {
+        let newName = (this.inputRef.nativeElement as HTMLInputElement).value;
+        this.backendService.ChangePlaylistTitle(newName, this.playlist).then(response => {
+            this.playlist.playlist_title = newName;
+        });
+    }
 }

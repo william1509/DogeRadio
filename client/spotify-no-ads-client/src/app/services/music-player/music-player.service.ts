@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Queue } from 'queue-typescript';
-import { MusicGetterService } from '../music-getter/music-getter.service';
+import { BackendService } from '../backend/backend.service';
 import { Playlist } from '../Playlist';
 import { ParseToVideo, Video } from '../Video';
 
@@ -20,7 +20,7 @@ export class MusicPlayerService {
     public sliderMusicEnabled: boolean;
     public previousSongs: Queue<Video>;
 
-    constructor(public musicGetterService: MusicGetterService) {
+    constructor(public backendService: BackendService) {
         this.sliderMusicEnabled = true;
         this.sliderMusicProgression = 0;
         this.isLoading = false;
@@ -65,7 +65,7 @@ export class MusicPlayerService {
 
     public PlaySong(song: Video): void {
         this.isLoading = true;
-        this.musicGetterService.DownloadFromServer(song).subscribe(response => {
+        this.backendService.DownloadFromServer(song).subscribe(response => {
             let data_url = URL.createObjectURL(response);
             this.audioPlayerElement.src = data_url;
             this.isLoading = false;
@@ -76,7 +76,7 @@ export class MusicPlayerService {
 
     public PlayPlaylist(playlist: Playlist, shuffle: boolean): void {
         this.songQueue = new Queue<Video>();
-        this.musicGetterService.GetSongsInPlaylist(playlist).subscribe(response => {
+        this.backendService.GetSongsInPlaylist(playlist).subscribe(response => {
             let videoArray = response as Video[];
             if(shuffle) videoArray = this.ShuffleArray(videoArray);
             for(let i in videoArray) {

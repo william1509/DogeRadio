@@ -17,7 +17,6 @@ class ServerHelper(object):
 
         # We need to change the field name 'id' to 'song_id' so it matches the name in the database. Otherwise we need to manipulate manually every value
         videosInfo['song_id'] = videosInfo.pop('id')
-        print(videosInfo)
         cursor.execute("insert into songs(song_id, title, publishedtime, duration, viewcount_short, viewcount_long, channel_id, thumbnail_url, description) values (%s, %s, %s, %s, %s, %s, %s, %s, %s) on conflict (song_id) do nothing",
         [videosInfo['song_id'],
          videosInfo['title'],

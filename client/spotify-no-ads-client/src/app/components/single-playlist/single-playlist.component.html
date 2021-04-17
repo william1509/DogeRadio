@@ -1,9 +1,31 @@
-<div *ngIf="CheckIfPlaylistEmpty()">
-    Your playlist is empty
-</div>
 <div fxLayout="column" fxLayoutAlign="center">
-    <mat-label class="playlist-title">{{playlist.playlist_title}}</mat-label>
-    <button></button>
+    <div class="title-container">
+        <input #input (focus)="inputChanged = true" tabindex="-1" class="playlist-title" value={{playlist.playlist_title}}>
+        <div *ngIf="inputChanged" class="title-buttons">
+            <button 
+                mat-button 
+                color="primary" 
+                (click)="EditTitleClicked()"
+            >
+                <mat-icon>
+                    check
+                </mat-icon>
+            </button>
+            <button 
+                mat-button 
+                class="cancel-button"
+                (click)="inputChanged = false"
+            >
+                <mat-icon>
+                    close
+                </mat-icon>
+            </button>
+        </div>
+        
+    </div>
+    <div *ngIf="CheckIfPlaylistEmpty()">
+        Your playlist is empty
+    </div>
     <div *ngFor="let song of songs" fxLayout="column">
         <div fxLayout="row" fxLayoutGap="10px">
             <button 

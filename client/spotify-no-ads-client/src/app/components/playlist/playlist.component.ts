@@ -1,5 +1,5 @@
 import { Component, OnInit, Type } from '@angular/core';
-import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 import { CreatePlaylistComponent } from '../create-playlist/create-playlist.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
@@ -14,7 +14,7 @@ import { Video } from 'src/app/services/Video';
     styleUrls: ['./playlist.component.scss']
 })
 export class PlaylistComponent implements OnInit {
-    constructor(public musicGetterService: MusicGetterService, public musicPlayerService: MusicPlayerService, public dialog: MatDialog) {
+    constructor(public backendService: BackendService, public musicPlayerService: MusicPlayerService, public dialog: MatDialog) {
 
     }
     ngOnInit(): void {
@@ -36,7 +36,7 @@ export class PlaylistComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.musicGetterService.DeletePlaylist(playlist);
+                this.backendService.DeletePlaylist(playlist);
             }
         });
     }

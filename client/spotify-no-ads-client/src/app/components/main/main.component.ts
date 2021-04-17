@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 import { MusicPlayerService } from 'src/app/services/music-player/music-player.service';
 import { Video } from 'src/app/services/Video';
 
@@ -10,14 +10,14 @@ import { Video } from 'src/app/services/Video';
     encapsulation: ViewEncapsulation.None
 })
 export class MainComponent implements OnInit {
-    constructor(public musicGetterService: MusicGetterService, public musicPlayerService: MusicPlayerService) {
+    constructor(public backendService: BackendService, public musicPlayerService: MusicPlayerService) {
         
     }
 
     ngOnInit(): void {
         this.musicPlayerService.audioPlayerElement = document.getElementById('player') as HTMLAudioElement;
         this.musicPlayerService.audioPlayerElement.volume = 0.5;
-        this.musicGetterService.GetPlaylists();
+        this.backendService.GetPlaylists();
     }
 
     public AudioEnded(): void {

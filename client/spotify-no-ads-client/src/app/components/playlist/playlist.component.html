@@ -8,7 +8,7 @@
         </button>
     </div>
         
-    <div id="playlist-container" *ngFor="let playlist of musicGetterService.playlists" fxLayout="row" fxLayoutAlign="space-evenly center">
+    <div id="playlist-container" *ngFor="let playlist of backendService.playlists" fxLayout="row" fxLayoutAlign="space-evenly center">
         <button mat-button color="primary" id="playlist-card" (click)="ShowPlaylist(playlist)">
             {{playlist.playlist_title}}
         </button>

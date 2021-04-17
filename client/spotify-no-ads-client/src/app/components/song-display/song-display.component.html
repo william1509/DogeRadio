@@ -13,8 +13,8 @@
             Add to playlist
         </button>
         
-        <mat-select placeholder="Choose a playlist" [(ngModel)]="selectedValue" name="food" *ngIf="showPlaylist[musicGetterService.searchedSongs.indexOf(song)]" fxFlex="30" >
-            <mat-option *ngFor="let playlist of musicGetterService.playlists" [value]="playlist.playlist_title" (click)="PlaylistClicked(playlist, song)">
+        <mat-select placeholder="Choose a playlist" [(ngModel)]="selectedValue" name="food" *ngIf="showPlaylist[backendService.searchedSongs.indexOf(song)]" fxFlex="30" >
+            <mat-option *ngFor="let playlist of backendService.playlists" [value]="playlist.playlist_title" (click)="PlaylistClicked(playlist, song)">
               {{playlist.playlist_title}}
             </mat-option>
         </mat-select>

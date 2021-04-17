@@ -11,7 +11,7 @@ const url = 'http://127.0.0.1:5000';
     providedIn: 'root',
 })
 
-export class MusicGetterService {
+export class BackendService {
     public searchedSongs: Video[];
     public playlists: Playlist[];
 
@@ -82,6 +82,11 @@ export class MusicGetterService {
         this.httpClient.request('GET', url + '/rm/playlist/song', { responseType: 'json', params }).subscribe(response => {
             console.log(response)
         });
+    }
+
+    public ChangePlaylistTitle(newTitle: string, playlist: Playlist): Promise<Object> {
+        let params = new HttpParams({ fromObject: {name: newTitle, id: playlist.playlist_id.toString() }});
+        return this.httpClient.request('GET', url + '/set/playlist', { responseType: 'json', params }).toPromise();
     }
 
 }

@@ -156,6 +156,19 @@ def removeSongFromPlaylist():
 
     return '200'
 
+@app.route('/set/playlist', methods=['GET'])
+def changePlaylistTitle():
+    playlist_name = request.args.get('name')
+    playlist_id = request.args.get('id')
+    cursor = g.db_conn.cursor()
+    try:
+        cursor.execute("update playlists_users set playlist_title = %s where playlist_id = %s", [playlist_name, playlist_id])
+    except Exception as e:
+        print(e)
+        return '100'
+
+    return '200'
+
 @app.after_request
 def after_request(response):
     g.db_conn.commit()

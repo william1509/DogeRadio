@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MusicGetterService } from 'src/app/services/music-getter/music-getter.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 import { MusicPlayerService } from 'src/app/services/music-player/music-player.service';
 import { Playlist } from 'src/app/services/Playlist';
 import { Video } from 'src/app/services/Video';
@@ -23,7 +23,7 @@ export class SongDisplayComponent implements OnInit {
     public selectedValue: string;
     public showPlaylist: boolean[];
 
-    constructor(public musicPlayerService: MusicPlayerService, public musicGetterService: MusicGetterService) {
+    constructor(public musicPlayerService: MusicPlayerService, public backendService: BackendService) {
         this.showDetails = true;
         this.showThumbnail = true;
         this.selectedValue = 'WOOWO';
@@ -40,7 +40,7 @@ export class SongDisplayComponent implements OnInit {
 
     }
     public ToggleShowPlaylist(song: Video): void {
-        this.showPlaylist[this.musicGetterService.searchedSongs.indexOf(song)] = !this.showPlaylist[this.musicGetterService.searchedSongs.indexOf(song)]
+        this.showPlaylist[this.backendService.searchedSongs.indexOf(song)] = !this.showPlaylist[this.backendService.searchedSongs.indexOf(song)]
     }
 
     public AddToQueue(song: Video): void {
@@ -54,7 +54,7 @@ export class SongDisplayComponent implements OnInit {
 
     public PlaylistClicked(playlist: Playlist, song: Video): void {
         this.ToggleShowPlaylist(song);
-        this.musicGetterService.AddSongToPlaylist(playlist, song);
+        this.backendService.AddSongToPlaylist(playlist, song);
     }
 
 }
