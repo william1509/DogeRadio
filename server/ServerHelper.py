@@ -3,7 +3,8 @@ from youtubesearchpython import VideosSearch
 
 class ServerHelper(object):
     def connect_db(self):
-        return psycopg2.connect(database="doge-radio", user = "dev", password = "1234", host = "35.203.72.59")
+        password = open('credentials.txt', 'r').read()
+        return psycopg2.connect(database="doge-radio", user = "dev", password = password, host = "35.203.72.59")
 
 
     def close_db(self, db_connection):

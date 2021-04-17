@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 server/static/
+server/credentials.txt
 
 # C extensions
 *.so
