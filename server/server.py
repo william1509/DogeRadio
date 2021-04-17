@@ -1,26 +1,34 @@
 from flask import g, Flask, render_template, request, redirect, jsonify, send_file, send_from_directory, safe_join, abort
+from flask_cors import CORS
 import json
 import os
 import youtube_dl
 from youtubesearchpython import VideosSearch
 from ServerHelper import ServerHelper
 from psycopg2.extras import RealDictCursor
+import traceback
 
 app = Flask(__name__)
+
 serverHelper = ServerHelper()
+
+CORS(app)
 
 @app.before_request
 def activate_job():
     try:
         if not hasattr(g, 'db_conn'):
             g.db_conn = serverHelper.connect_db()
+
         
-    except Exception:
-        print('Connected to the database')
+    except Exception as e:
+        print(e)
+        print('Connection to the database failed')
 
 @app.route('/download', methods=['GET'])
 def download():
     try:
+       
         songs = os.listdir('static/Musics/')
         video_id = request.args.get('name')     
         fileName = video_id + '.mp3'
@@ -30,12 +38,11 @@ def download():
                 ydl.download(['https://www.youtube.com/watch?v=' + video_id])
             
         cursor = g.db_conn.cursor()
-
         serverHelper.addSongToDatabase(cursor, video_id)
-        
+
         return app.send_static_file('Musics/{}.mp3'.format(video_id))
     except Exception as e:  
-        print(e) 
+        print(traceback.format_exc())
         return abort(404)
         
 @app.route('/search', methods=['GET'])
@@ -73,7 +80,8 @@ def addPlaylist():
         cursor.execute("insert into playlists_users(user_id, playlist_title) values (%s, %s)", [1, name])
         cursor.execute("select * from playlists_users where user_id = %s and playlist_title = %s", [1, name])
 
-    except Exception:
+    except Exception as e:
+        print(e)
         print('Could not insert the new playlist')
         return '100'
     rows = cursor.fetchall()
