@@ -1,0 +1,13 @@
+<div id="container">
+    <div id="search-bar">
+        <mat-form-field color="primary">
+            <input id="input" matInput placeholder="Enter a song" (keypress)="VerifyInput($event)" [(ngModel)]="keyword">
+        </mat-form-field>
+        <button mat-button id="go-button" (click)="ButtonClicked()">Go</button>
+    </div>
+    <div id="songs-container" fxLayout="column" fxLayoutAlign="start stretch">
+        <li class="list-item"  *ngFor="let song of backendService.searchedSongs">
+            <app-song-display [song]="song"></app-song-display>
+        </li>
+    </div>
+</div>

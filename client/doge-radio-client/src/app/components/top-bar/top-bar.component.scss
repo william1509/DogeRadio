@@ -1,0 +1,47 @@
+.main-container {
+    background: darkslategrey;    
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: 40px;
+    font-family: monospace;
+    color: white;
+}
+
+#page-logo {
+    height: 100%;
+    margin-right: 2%;
+}
+
+#left-zone {
+    display: flex;
+}
+
+.nav-side {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.example-icon {
+    padding: 0 14px;
+}
+  
+.example-spacer {
+    flex: 1 1 auto;
+}
+#playlist-button
+{
+    font-family: monospace;
+    font-size: 20px;
+    margin-right: 30px;
+    text-decoration: none;
+    color:white; 
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+}
+#playlist-button:hover
+{
+    background-color: green;
+}

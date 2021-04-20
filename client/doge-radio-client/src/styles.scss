@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-palette: (
+    50 : #e3f3e6,
+    100 : #bae0c0,
+    200 : #8ccb97,
+    300 : #5eb66d,
+    400 : #3ca74d,
+    500 : #19972e,
+    600 : #168f29,
+    700 : #128423,
+    800 : #0e7a1d,
+    900 : #086912,
+    A100 : #9affa1,
+    A200 : #67ff71,
+    A400 : #34ff42,
+    A700 : #1aff2a,
+    contrast: (
+        50 : #1aff2a,
+        100 : #1aff2a,
+        200 : #1aff2a,
+        300 : #1aff2a,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #1aff2a,
+        A200 : #1aff2a,
+        A400 : #1aff2a,
+        A700 : #1aff2a,
+    )
+);
+
+$my-custom-primary: mat-palette($my-palette); 
+$my-custom-accent: mat-palette($my-palette, 100, 500, A100); 
+$my-custom-warn: mat-palette($my-palette);
+
+$my-custom-theme: mat-light-theme( 
+              $my-custom-primary,  
+              $my-custom-accent,  
+              $my-custom-warn); 
+$my-custom-theme: mat-dark-theme( 
+              $my-custom-primary,  
+              $my-custom-accent,  
+              $my-custom-warn);
+              
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgb(24, 20, 20) }
+
+
+@include angular-material-theme($my-custom-theme); 

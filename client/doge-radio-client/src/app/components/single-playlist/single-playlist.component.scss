@@ -1,0 +1,38 @@
+.song-label {
+    white-space: normal;
+    background-color: transparent;
+    text-align: left;
+}
+
+.delete-button {
+    color: red;
+}
+
+.delete-button:hover {
+    background-color: rgb(44, 0, 0);
+}
+
+.current-song {
+    background-color: rgba(22, 126, 22, 0.1);
+}
+
+.playlist-title {
+    color: yellowgreen;
+    font-size: 30px;
+    margin-left: 16px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.title-buttons {
+    float: right;
+}
+
+.title-container {
+    margin-bottom: 30px;
+
+}
+
+.cancel-button {
+    color:red;
+}

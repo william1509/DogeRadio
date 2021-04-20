@@ -1,0 +1,60 @@
+<div fxLayout="column" fxLayoutAlign="center">
+    <div class="title-container" (focus)="inputChanged = true" (focusout)="inputChanged = false">
+        <input #input  tabindex="-1" class="playlist-title" value={{playlist.playlist_title}}>
+        <div *ngIf="inputChanged" class="title-buttons">
+            <button 
+                mat-button 
+                color="primary" 
+                (click)="EditTitleClicked()"
+            >
+                <mat-icon>
+                    check
+                </mat-icon>
+            </button>
+            <button 
+                mat-button 
+                class="cancel-button"
+                (click)="inputChanged = false"
+            >
+                <mat-icon>
+                    close
+                </mat-icon>
+            </button>
+        </div>
+        
+    </div>
+    <div *ngIf="CheckIfPlaylistEmpty()">
+        Your playlist is empty
+    </div>
+    <div cdkDropList class="example-list" (cdkDropListDropped)="SongDropped($event)">
+        <div *ngFor="let song of songs" fxLayout="column" cdkDrag>
+            <div fxLayout="row" fxLayoutGap="10px">
+                <button 
+                    onfocus="this.blur()"
+                    mat-flat-button 
+                    [ngClass]="{'current-song' : song.song_id === musicPlayerService.currentSong.song_id}" 
+                    class="song-label"
+                    fxFlex=90 
+                    (click)="SongClicked(song)"
+                >
+                    {{song.title}}
+                </button>
+                <button 
+                    mat-button 
+                    class="delete-button" 
+                    fxFlex=10 
+                    (click)="DeleteClicked(song)"
+                >
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+
+
+

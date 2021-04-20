@@ -1,0 +1,28 @@
+.main-container {
+
+}
+.title-label {
+    font-family: monospace;
+    font-size: 50px;
+    line-height: 50px;
+    color: rgb(168, 243, 19);
+    margin-bottom: 20px;
+}
+
+.playlist-card {
+    font-size: 20px;
+    font-family: monospace;
+    white-space: normal;
+    text-align: left;
+}
+
+.empty-label {
+    font-family: monospace;
+    font-size: 20px;
+    line-height: 20px;
+    color: yellowgreen;
+}
+
+.current-song {
+    background-color: rgba(19, 134, 9, 0.1);
+}
