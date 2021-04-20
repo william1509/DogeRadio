@@ -1,9 +1,10 @@
 {
   "name": "spotify-no-ads-client",
   "version": "0.0.0",
+  "main": "src/main.ts",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "electron .",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -22,6 +23,7 @@
     "@angular/platform-browser": "~11.1.2",
     "@angular/platform-browser-dynamic": "~11.1.2",
     "@angular/router": "~11.1.2",
+    "electron": "^12.0.4",
     "queue-typescript": "^1.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

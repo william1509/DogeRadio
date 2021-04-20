@@ -132,5 +132,8 @@
       "styleext": "scss"
     }
   },
-  "defaultProject": "spotify-no-ads-client"
+  "defaultProject": "spotify-no-ads-client",
+  "cli": {
+    "analytics": false
+  }
 }
