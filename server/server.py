@@ -187,3 +187,6 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'responseType')
     response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
     return response
+
+if __name__ == "__main__":
+    app.run()
