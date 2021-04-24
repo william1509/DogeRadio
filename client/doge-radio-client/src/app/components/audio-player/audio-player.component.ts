@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSlider } from '@angular/material/slider';
 import { MusicPlayerService } from '../../services/music-player/music-player.service';
 
 @Component({
@@ -8,10 +9,14 @@ import { MusicPlayerService } from '../../services/music-player/music-player.ser
 })
 export class AudioPlayerComponent implements OnInit {
 
+    public sliderVolumeValue = 50;
+
     constructor(public musicPlayerService: MusicPlayerService) { }
 
     ngOnInit(): void {
+        this.sliderVolumeValue = this.musicPlayerService.audioPlayerElement.volume * 100;
     }
+
     public PlayClicked(): void {
         this.musicPlayerService.playState = !this.musicPlayerService.playState;
         if (this.musicPlayerService.playState) {
@@ -30,16 +35,20 @@ export class AudioPlayerComponent implements OnInit {
         this.musicPlayerService.PlayPrevious();
     }
 
-    public TimeChanged(event: Event): void {
-        let slider = event.currentTarget as HTMLInputElement;
-        let currentTime = (parseInt(slider.value) / 1000) * this.musicPlayerService.audioPlayerElement.duration; 
+    public TimeChanged(event: any): void {
+        let slider = event as MatSlider;
+        console.log(slider)
+
+        let currentTime = (slider.value / 1000) * this.musicPlayerService.audioPlayerElement.duration; 
+
         if(isNaN(currentTime)) {
             return;
         }
         this.musicPlayerService.audioPlayerElement.currentTime = currentTime;
     }
-    public VolumeChanged(event: Event): void {
-        this.musicPlayerService.audioPlayerElement.volume = parseFloat((event.currentTarget as HTMLInputElement).value) / 100;
+    
+    public VolumeChanged(event: any): void {
+        this.musicPlayerService.audioPlayerElement.volume = ((event as MatSlider).value) / 100;
     }
 
     public GetCurrentSong(): string {
@@ -56,9 +65,5 @@ export class AudioPlayerComponent implements OnInit {
     public ToggleMaxVolume(): void {
         this.musicPlayerService.ToggleMaxVolume();
     }
-    public GetVolumeValue(): number {
-        return this.musicPlayerService.audioPlayerElement.volume * 100;
-    }
-
     
 }

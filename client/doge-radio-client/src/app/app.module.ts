@@ -37,6 +37,7 @@ import { LibraryComponent } from './components/library/library.component';
 import { SongDisplayComponent } from './components/song-display/song-display.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { DragDropModule } from '@angular/cdk/drag-drop'; 
+import { MatSliderModule } from '@angular/material/slider'; 
 
 import 'zone.js';
 
@@ -77,7 +78,8 @@ import 'zone.js';
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
-    DragDropModule
+    DragDropModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

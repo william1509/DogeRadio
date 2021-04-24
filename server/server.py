@@ -122,7 +122,7 @@ def addSongToPlaylist():
 
     try:
         cursor.execute("insert into playlists_songs(playlist_id, song_id) values (%s, %s) on conflict (playlist_id, song_id) do nothing", [playlist, song])
-
+        cursor.execute("insert into playlist_songs_order(playlist_id, song_id) values (%s, %s) on conflict (playlist_id, song_id) do nothing", [playlist, song])
         serverHelper.addSongToDatabase(cursor, song)
 
     except Exception as e:

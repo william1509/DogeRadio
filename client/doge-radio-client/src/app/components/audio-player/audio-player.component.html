@@ -11,9 +11,19 @@
             <mat-icon [inline]="true" id="button-logo">skip_next</mat-icon>
         </button>
     </div>
-    <div class="song-progress-container" fxLayout="row" fxLayoutAlign="space-around stretch" fxFill>
+    <div class="song-progress-container" fxLayout="row" fxLayoutAlign="space-around center" fxFill>
         {{(musicPlayerService.audioPlayerElement.currentTime).toFixed()}}
-        <input type="range" min="1" max="1000" value={{musicPlayerService.sliderMusicProgression}} [disabled]="musicPlayerService.IsAudioPlaying()" id="slider-progress" (change)="TimeChanged($event)" fxFlex="75">
+        <mat-slider 
+            color="primary"
+            min="1" 
+            max="1000" 
+            id="slider-progress" 
+            (input)="TimeChanged($event)" 
+            [(ngModel)]="musicPlayerService.sliderMusicProgression"
+            [disabled]="musicPlayerService.IsAudioPlaying()" 
+            fxFlex="75"
+        >
+        </mat-slider>
         {{(musicPlayerService.audioPlayerElement.duration).toFixed()}}
 
     </div>
@@ -23,7 +33,16 @@
             <mat-icon class="volume-image" color="primary">volume_off</mat-icon>
         </button>
         
-        <input type="range" min="1" max="100" [value]="GetVolumeValue()" id="slider-audio" (change)="VolumeChanged($event)">
+        <mat-slider 
+            height="15px"
+            color="primary"
+            min="1" 
+            max="100" 
+            id="slider-audio"
+            (input)="VolumeChanged($event)"
+            [(ngModel)]="sliderVolumeValue"
+        >
+        </mat-slider>
         <button mat-button [ngClass]="{'volume-clicked' : musicPlayerService.audioPlayerElement.volume === 1.0}" (click)="ToggleMaxVolume()">
             <mat-icon class="volume-image" color="primary">volume_up</mat-icon>
         </button>
