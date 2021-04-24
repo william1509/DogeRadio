@@ -72,7 +72,7 @@ def getPlaylist():
     rows = cursor.fetchall()
     return jsonify(rows)
 
-@app.route('/add/playlist', methods=['POST'])
+@app.route('/add-playlist', methods=['POST'])
 def addPlaylist():
     cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
@@ -87,7 +87,7 @@ def addPlaylist():
     rows = cursor.fetchall()
     return jsonify(rows)
 
-@app.route('/rm/playlist', methods=['POST'])
+@app.route('/rm-playlist', methods=['POST'])
 def deletePlaylist():
     cursor = g.db_conn.cursor()
     name = request.args.get('name')
@@ -101,12 +101,12 @@ def deletePlaylist():
 
     return jsonify('200')
 
-@app.route('/playlists/songs', methods=['GET'])
+@app.route('/songs-playlist', methods=['GET'])
 def getSongsInPlaylist():
     cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
     try:
-        cursor.execute("select * from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s", [name])
+        cursor.execute("select * from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s order by song_order", [name])
     except Exception as e:
         print(e)
         return '100'
@@ -114,7 +114,7 @@ def getSongsInPlaylist():
     rows = cursor.fetchall()
     return jsonify(rows)
 
-@app.route('/add/playlist/song', methods=['POST'])
+@app.route('/add-song-playlist', methods=['POST'])
 def addSongToPlaylist():
     cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     song = request.args.get('song')
@@ -143,7 +143,7 @@ def GetReadySongs():
 
     return jsonify(rows)
 
-@app.route('/rm/playlist/song', methods=['GET'])
+@app.route('/rm-song-playlist', methods=['GET'])
 def removeSongFromPlaylist():
     song = request.args.get('song')
     playlist = request.args.get('playlist')
@@ -156,7 +156,7 @@ def removeSongFromPlaylist():
 
     return '200'
 
-@app.route('/set/playlist', methods=['GET'])
+@app.route('/set-title-playlist', methods=['GET'])
 def changePlaylistTitle():
     playlist_name = request.args.get('name')
     playlist_id = request.args.get('id')
@@ -167,6 +167,19 @@ def changePlaylistTitle():
         print(e)
         return '100'
 
+    return '200'
+
+@app.route('/set-song-order', methods=['PATCH'])
+def changeSongOrder():
+    playlist_id = request.args.get('playlist')
+    songs = request.json
+    cursor = g.db_conn.cursor()
+    try:
+        for i in range(len(songs)):
+            cursor.execute("update playlists_songs set song_order = %s where playlist_id = %s and song_id = %s", [i, playlist_id, songs[i]['song_id']])
+    except Exception as e:
+        print(e)
+        return '100'
     return '200'
 
 @app.after_request
@@ -185,7 +198,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'X-Requested-With')
     response.headers.add('Access-Control-Allow-Headers', 'Authorization')
     response.headers.add('Access-Control-Allow-Headers', 'responseType')
-    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE, PATCH')
     return response
 
 if __name__ == "__main__":

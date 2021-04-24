@@ -56,5 +56,9 @@ export class SinglePlaylistComponent implements OnInit {
     }
 
     public SongDropped(event: CdkDragDrop<Video[]>): void {
-        moveItemInArray(this.songs, event.previousIndex, event.currentIndex);    }
+        moveItemInArray(this.songs, event.previousIndex, event.currentIndex);    
+        console.log(this.songs)
+        this.backendService.ChangeSongOrder(this.songs, this.playlist);
+
+    }
 }

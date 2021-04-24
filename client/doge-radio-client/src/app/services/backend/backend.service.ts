@@ -47,14 +47,14 @@ export class BackendService {
 
     public CreatePlaylist(playlistName: string): void {
         const params = new HttpParams({ fromString: 'name=' + playlistName });
-        this.httpClient.request('POST', url + '/add/playlist', { responseType: 'text' , params}).subscribe(response => {
+        this.httpClient.request('POST', url + '/add-playlist', { responseType: 'text' , params}).subscribe(response => {
             this.playlists.push(JSON.parse(response)[0]);
         });
     }
 
     public DeletePlaylist(playlist: Playlist): void {
         const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
-        this.httpClient.request('POST', url + '/rm/playlist', { responseType: 'text' , params}).subscribe(response => {
+        this.httpClient.request('POST', url + '/rm-playlist', { responseType: 'text' , params}).subscribe(response => {
             const index = this.playlists.indexOf(playlist);
             if(index > -1) {
                 this.playlists.splice(index, 1);
@@ -64,12 +64,12 @@ export class BackendService {
 
     public GetSongsInPlaylist(playlist: Playlist): Observable<any> {
         const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
-        return this.httpClient.request('GET', url + '/playlists/songs', { responseType: 'json', params });
+        return this.httpClient.request('GET', url + '/songs-playlist', { responseType: 'json', params });
     }
 
     public AddSongToPlaylist(playlist: Playlist, song: Video): void {
         let params = new HttpParams({ fromObject: {song: song.song_id, playlist: playlist.playlist_id.toString() }});
-        this.httpClient.request('POST', url + '/add/playlist/song', { responseType: 'json', params }).subscribe(response => {
+        this.httpClient.request('POST', url + '/add-song-playlist', { responseType: 'json', params }).subscribe(response => {
         });
     }
 
@@ -79,14 +79,19 @@ export class BackendService {
 
     public DeleteSongFromPlaylist(song: Video, playlist: Playlist): void {
         let params = new HttpParams({ fromObject: {song: song.song_id, playlist: playlist.playlist_id.toString() }});
-        this.httpClient.request('GET', url + '/rm/playlist/song', { responseType: 'json', params }).subscribe(response => {
+        this.httpClient.request('GET', url + '/rm-song-playlist', { responseType: 'json', params }).subscribe(response => {
             console.log(response)
         });
     }
 
     public ChangePlaylistTitle(newTitle: string, playlist: Playlist): Promise<Object> {
         let params = new HttpParams({ fromObject: {name: newTitle, id: playlist.playlist_id.toString() }});
-        return this.httpClient.request('GET', url + '/set/playlist', { responseType: 'json', params }).toPromise();
+        return this.httpClient.request('GET', url + '/set-title-playlist', { responseType: 'json', params }).toPromise();
+    }
+
+    public ChangeSongOrder(songs: Video[], playlist: Playlist): Promise<Object> {
+        let params = new HttpParams({ fromObject: {playlist: playlist.playlist_id.toString() }});
+        return this.httpClient.request('PATCH', url + '/set-song-order', {body: songs, responseType: 'json', params }).toPromise();
     }
 
 }

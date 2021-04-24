@@ -37,8 +37,6 @@ export class AudioPlayerComponent implements OnInit {
 
     public TimeChanged(event: any): void {
         let slider = event as MatSlider;
-        console.log(slider)
-
         let currentTime = (slider.value / 1000) * this.musicPlayerService.audioPlayerElement.duration; 
 
         if(isNaN(currentTime)) {

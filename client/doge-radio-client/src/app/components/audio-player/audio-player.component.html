@@ -15,7 +15,7 @@
         {{(musicPlayerService.audioPlayerElement.currentTime).toFixed()}}
         <mat-slider 
             color="primary"
-            min="1" 
+            min="0" 
             max="1000" 
             id="slider-progress" 
             (input)="TimeChanged($event)" 
@@ -32,11 +32,10 @@
         <button mat-button [ngClass]="{'volume-clicked' : musicPlayerService.audioPlayerElement.volume === 0.0}" (click)="ToggleMute()">
             <mat-icon class="volume-image" color="primary">volume_off</mat-icon>
         </button>
-        
         <mat-slider 
             height="15px"
             color="primary"
-            min="1" 
+            min="0" 
             max="100" 
             id="slider-audio"
             (input)="VolumeChanged($event)"
