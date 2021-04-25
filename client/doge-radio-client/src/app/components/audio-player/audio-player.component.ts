@@ -63,5 +63,22 @@ export class AudioPlayerComponent implements OnInit {
     public ToggleMaxVolume(): void {
         this.musicPlayerService.ToggleMaxVolume();
     }
+
+    public SecondsToRegularFormat(secs: string): string {
+        let intSecs = Number(secs);
+        let h = Math.floor(intSecs / 3600);
+        let m = Math.floor(intSecs % 3600 / 60);
+        let s = Math.floor(intSecs % 3600 % 60);
+    
+        let hDisplay = h > 0 ? h + ":" : "";
+        let mDisplay = m > 0 ? m + ":" : "";
+        let sDisplay = s > 0 ? s : "";
+
+        let total = hDisplay + mDisplay + sDisplay;
+
+        total = total == "" ? "Nan" : total;
+
+        return total; 
+    }
     
 }

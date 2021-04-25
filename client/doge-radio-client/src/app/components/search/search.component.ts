@@ -31,23 +31,12 @@ export class SearchComponent implements OnInit {
         this.musicPlayerService.PlayNow(song);
         
     }
-    
     public VerifyInput(event: Event): void {
         let kEvent = event as KeyboardEvent
         if(kEvent.key == 'Enter') {
             this.backendService.SearchForSong(this.keyword);
         }
     }
-
-    public PlaylistClicked(playlist: Playlist, song: Video): void {
-        this.ToggleShowPlaylist(song);
-        this.backendService.AddSongToPlaylist(playlist, song);
-    }
-
-    public ToggleShowPlaylist(song: Video): void {
-        this.showPlaylist[this.backendService.searchedSongs.indexOf(song)] = !this.showPlaylist[this.backendService.searchedSongs.indexOf(song)]
-    }
-
     public AddToQueue(song: Video): void {
         this.musicPlayerService.AddToSongsQueue([song]);
 

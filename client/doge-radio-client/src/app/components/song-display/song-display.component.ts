@@ -21,14 +21,14 @@ export class SongDisplayComponent implements OnInit {
     public showThumbnail: boolean;
 
     public selectedValue: string;
-    public showPlaylist: boolean[];
+    public showPlaylist: boolean;
 
     constructor(public musicPlayerService: MusicPlayerService, public backendService: BackendService) {
         this.showDetails = true;
         this.showThumbnail = true;
         this.selectedValue = 'WOOWO';
         this.song = this.musicPlayerService.DefaultCurrentSong();
-        this.showPlaylist = Array<boolean>(5);
+        this.showPlaylist = false
 
     }
 
@@ -40,7 +40,7 @@ export class SongDisplayComponent implements OnInit {
 
     }
     public ToggleShowPlaylist(song: Video): void {
-        this.showPlaylist[this.backendService.searchedSongs.indexOf(song)] = !this.showPlaylist[this.backendService.searchedSongs.indexOf(song)]
+        this.showPlaylist = !this.showPlaylist;
     }
 
     public AddToQueue(song: Video): void {

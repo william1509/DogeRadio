@@ -1,7 +1,6 @@
 # DogeRadio
 
 TODO
-rename playlist
 make next song 
 add to playlist from song in queue
 add song to playlist 

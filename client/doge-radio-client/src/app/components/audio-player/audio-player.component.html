@@ -12,7 +12,7 @@
         </button>
     </div>
     <div class="song-progress-container" fxLayout="row" fxLayoutAlign="space-around center" fxFill>
-        {{(musicPlayerService.audioPlayerElement.currentTime).toFixed()}}
+        {{SecondsToRegularFormat(musicPlayerService.audioPlayerElement.currentTime.toFixed())}}
         <mat-slider 
             color="primary"
             min="0" 
@@ -24,7 +24,7 @@
             fxFlex="75"
         >
         </mat-slider>
-        {{(musicPlayerService.audioPlayerElement.duration).toFixed()}}
+        {{SecondsToRegularFormat(musicPlayerService.audioPlayerElement.duration.toFixed())}}
 
     </div>
     
