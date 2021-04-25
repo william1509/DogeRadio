@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 server/static/
 server/credentials.txt
+*.vscode
 
 # C extensions
 *.so
