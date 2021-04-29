@@ -32,7 +32,6 @@
                 <button 
                     onfocus="this.blur()"
                     mat-flat-button 
-                    [ngClass]="{'current-song' : song.song_id === musicPlayerService.currentSong.song_id}" 
                     class="song-label"
                     fxFlex=90 
                     (click)="SongClicked(song)"

@@ -1,5 +1,5 @@
 <div class="main-container" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="50px">
-    <p id="music-playing-label">{{GetCurrentSong()}}</p>
+    <p id="music-playing-label">{{GetCurrentSongTitle()}}</p>
     <div fxLayout="row" fxFill fxLayoutAlign="space-around center">
         <button mat-button class="buttons" color="primary" (click)="PreviousClicked()">
             <mat-icon [inline]="true" id="button-logo">skip_previous</mat-icon>

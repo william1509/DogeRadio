@@ -49,11 +49,11 @@ export class AudioPlayerComponent implements OnInit {
         this.musicPlayerService.audioPlayerElement.volume = ((event as MatSlider).value) / 100;
     }
 
-    public GetCurrentSong(): string {
-        if(this.musicPlayerService.currentSong.song_id === '') {
+    public GetCurrentSongTitle(): string {
+        if(this.musicPlayerService.songQueue.head === null) {
             return 'No song playing';
         }
-        return this.musicPlayerService.currentSong.title;
+        return this.musicPlayerService.songQueue.head.title;
     }
 
     public ToggleMute(): void {

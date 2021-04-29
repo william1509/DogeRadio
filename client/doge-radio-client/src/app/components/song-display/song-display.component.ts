@@ -44,11 +44,10 @@ export class SongDisplayComponent implements OnInit {
     }
 
     public AddToQueue(song: Video): void {
-        this.musicPlayerService.AddToSongsQueue([song]);
-        if(this.musicPlayerService.currentSong.song_id === '') {
-            this.musicPlayerService.PlayNext();
-        }
-        
+        this.musicPlayerService.AddToSongsQueue([song]);      
+        if(this.musicPlayerService.songQueue.length == 1) {
+            this.musicPlayerService.PlaySong(song);
+        }  
 
     }
 

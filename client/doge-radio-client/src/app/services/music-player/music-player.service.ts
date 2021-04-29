@@ -9,7 +9,6 @@ import { ParseToVideo, Video } from '../Video';
 })
 export class MusicPlayerService {
     
-    public currentSong: Video;
     public audioPlayerElement!: HTMLAudioElement;
     public playState: boolean;
     public songQueue: Queue<Video>;
@@ -24,7 +23,6 @@ export class MusicPlayerService {
         this.sliderMusicEnabled = true;
         this.sliderMusicProgression = 0;
         this.isLoading = false;
-        this.currentSong = this.DefaultCurrentSong();
         this.buttonLogo = 'play_arrow';
         this.playState = false;
         this.previousSongs = new Queue<Video>();
@@ -42,11 +40,12 @@ export class MusicPlayerService {
     }
 
     public PlayNext(): void {
-        this.currentSong = this.songQueue.dequeue();
-        if(this.currentSong) {
-            this.PlaySong(this.currentSong);
+        let previousSong = this.songQueue.dequeue();
+        this.previousSongs.enqueue(previousSong);
+        let nextSong = this.songQueue.head;
+        if(nextSong) {
+            this.PlaySong(nextSong);
         } else {
-            this.currentSong = this.DefaultCurrentSong();
             this.audioPlayerElement.src = '';
             console.log('No songs in the queue');
         }
@@ -59,7 +58,7 @@ export class MusicPlayerService {
     }
 
     public PlayNow(song: Video): void {
-        this.currentSong = song;
+        this.songQueue.prepend(song);
         this.PlaySong(song);
     }
 
@@ -83,7 +82,7 @@ export class MusicPlayerService {
                 let vid = ParseToVideo(videoArray[i]);
                 this.AddToSongsQueue([vid]);
             }
-            this.PlayNext();        
+            this.PlaySong(this.songQueue.head);       
         });
     }
 
@@ -105,17 +104,7 @@ export class MusicPlayerService {
 
     public AddToSongsQueue(songs: Video[]): void {
         for(let i in songs) {
-            if(songs[i] === this.currentSong) {
-                console.log('already in queue')
-                return;
-            } 
-            for(let vid in this.songQueue.toArray()) {
-                if(this.songQueue.toArray()[vid] === songs[i]) {
-                    console.log('already in queue')
-                    return;
-                }
-            }
-            this.songQueue.enqueue(songs[i]);
+            this.songQueue.append(songs[i], true);         
         }
     }
 
@@ -150,7 +139,6 @@ export class MusicPlayerService {
     public PlayPrevious(): void {
         let previousSong = this.previousSongs.dequeue();
         if(previousSong) {
-            this.songQueue.prepend(this.currentSong);
             this.PlayNow(previousSong);
             return;
         }
