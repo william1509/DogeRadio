@@ -1,5 +1,10 @@
-<div class="song-container">
-    <button (click)="SongClicked(song)" class="song-button">
+<div class="song-container" fxLayout="row" *ngIf="song.song_id == ''">
+    <button 
+        mat-button 
+        (click)="SongClicked(song)" 
+        class="song-button action-buttons"
+        fxFlex
+    >
         <p>{{song.title}}</p>
         <img *ngIf="showThumbnail" src={{song.thumbnails[0].url}} alt="thumbnail" width="100%">
         <div *ngIf="showDetails">
@@ -7,17 +12,34 @@
             <p id="views-label">{{song.duration}} min</p>
         </div>
     </button>
-    <button mat-button id="add-playlist-button" (click)="ToggleShowPlaylist(song)">
-        Add to playlist
+    <button 
+        mat-button
+        (click)="ToggleShowPlaylist(song)"
+        color="primary"
+        class="action-buttons"
+        matTooltip="Add this song to a playlist"
+    >
+        <mat-icon>
+            playlist_add
+        </mat-icon>
     </button>
-    <button mat-button id="add-playlist-button" (click)="AddToQueue(song)">
-        Add to queue
+    
+    <mat-select placeholder="Choose a playlist" [(ngModel)]="selectedValue" *ngIf="showPlaylist" fxFlex="20">
+        <mat-option *ngFor="let playlist of backendService.playlists" [value]="playlist.playlist_title" (click)="PlaylistClicked(playlist, song)">
+            {{playlist.playlist_title}}
+        </mat-option>
+    </mat-select>
+ 
+    <button 
+        mat-button 
+        (click)="AddToQueue(song)" 
+        color="primary"
+        class="action-buttons"
+        matTooltip="Add this song to the queue"
+    >
+        <mat-icon>
+            add_to_queue
+        </mat-icon>
     </button>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" *ngIf="showPlaylist">      
-        <mat-select placeholder="Choose a playlist" [(ngModel)]="selectedValue" fxFlex="30" >
-            <mat-option *ngFor="let playlist of backendService.playlists" [value]="playlist.playlist_title" (click)="PlaylistClicked(playlist, song)">
-              {{playlist.playlist_title}}
-            </mat-option>
-        </mat-select>
-    </div>
+
 </div>

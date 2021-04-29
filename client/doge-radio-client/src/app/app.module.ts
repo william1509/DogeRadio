@@ -38,6 +38,7 @@ import { SongDisplayComponent } from './components/song-display/song-display.com
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { DragDropModule } from '@angular/cdk/drag-drop'; 
 import { MatSliderModule } from '@angular/material/slider'; 
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import 'zone.js';
 
@@ -79,7 +80,8 @@ import 'zone.js';
     CoreModule,
     SharedModule,
     DragDropModule,
-    MatSliderModule
+    MatSliderModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
