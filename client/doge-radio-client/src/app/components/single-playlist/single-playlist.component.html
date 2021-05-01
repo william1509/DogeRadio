@@ -1,6 +1,13 @@
 <div fxLayout="column" fxLayoutAlign="center">
-    <div class="title-container" (focus)="inputChanged = true" (focusout)="inputChanged = false">
-        <input #input  tabindex="-1" class="playlist-title" value={{playlist.playlist_title}}>
+    <div class="title-container">
+        <input 
+            #input 
+            (focus)="inputChanged = true" 
+            (focusout)="inputChanged = false" 
+            tabindex="-1" 
+            class="playlist-title" 
+            value={{playlist.playlist_title}}
+        >
         <div *ngIf="inputChanged" class="title-buttons">
             <button 
                 mat-button 

@@ -111,7 +111,7 @@ def getSongsInPlaylist():
             cursor.execute("""select * from songs 
             left join playlists_songs on songs.song_id = playlists_songs.song_id 
             where playlists_songs.playlist_id = %s 
-            order by RANDOM()""", 
+            order by RANDOM(), song_order""", 
             [name]
             )
         else:
