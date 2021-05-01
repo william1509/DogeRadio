@@ -65,20 +65,12 @@ export class AudioPlayerComponent implements OnInit {
     }
 
     public SecondsToRegularFormat(secs: string): string {
-        let intSecs = Number(secs);
-        let h = Math.floor(intSecs / 3600);
-        let m = Math.floor(intSecs % 3600 / 60);
-        let s = Math.floor(intSecs % 3600 % 60);
-    
-        let hDisplay = h > 0 ? h + ":" : "";
-        let mDisplay = m > 0 ? m + ":" : "";
-        let sDisplay = s > 0 ? s : "";
-
-        let total = hDisplay + mDisplay + sDisplay;
-
-        total = total == "" ? "Nan" : total;
-
-        return total; 
+        try {
+            let date = new Date(parseInt(secs) * 1000).toISOString().substr(11, 8);
+            return date; 
+        } catch {
+            return "00:00:00";
+        }
     }
     
 }

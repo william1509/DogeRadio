@@ -73,11 +73,10 @@ export class MusicPlayerService {
         });
     }
 
-    public PlayPlaylist(playlist: Playlist, shuffle: boolean): void {
+    public PlayPlaylist(playlist: Playlist, shouldShuffle: boolean): void {
         this.songQueue = new Queue<Video>();
-        this.backendService.GetSongsInPlaylist(playlist).subscribe(response => {
+        this.backendService.GetSongsInPlaylist(playlist, shouldShuffle).subscribe(response => {
             let videoArray = response as Video[];
-            if(shuffle) videoArray = this.ShuffleArray(videoArray);
             for(let i in videoArray) {
                 let vid = ParseToVideo(videoArray[i]);
                 this.AddToSongsQueue([vid]);

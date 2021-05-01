@@ -26,7 +26,7 @@ export class SinglePlaylistComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.backendService.GetSongsInPlaylist(this.playlist).subscribe(response => {
+        this.backendService.GetSongsInPlaylist(this.playlist, false).subscribe(response => {
             this.songs = response;
         });
 

@@ -62,8 +62,8 @@ export class BackendService {
         });
     }
 
-    public GetSongsInPlaylist(playlist: Playlist): Observable<any> {
-        const params = new HttpParams({ fromString: 'name=' + playlist.playlist_id });
+    public GetSongsInPlaylist(playlist: Playlist, shouldShuffle: boolean): Observable<any> {
+        const params = new HttpParams({ fromObject: { name: playlist.playlist_id.toString(), shuffle: String(shouldShuffle)} });
         return this.httpClient.request('GET', url + '/songs-playlist', { responseType: 'json', params });
     }
 

@@ -4,7 +4,7 @@ import json
 import os
 import youtube_dl
 from youtubesearchpython import VideosSearch
-from ServerHelper import ServerHelper
+from server_helper import ServerHelper
 from psycopg2.extras import RealDictCursor
 import traceback
 
@@ -105,8 +105,22 @@ def deletePlaylist():
 def getSongsInPlaylist():
     cursor = g.db_conn.cursor(cursor_factory=RealDictCursor)
     name = request.args.get('name')
+    shuffle = request.args.get('shuffle')
     try:
-        cursor.execute("select * from songs left join playlists_songs on songs.song_id = playlists_songs.song_id where playlists_songs.playlist_id = %s order by song_order", [name])
+        if shuffle == 'true':
+            cursor.execute("""select * from songs 
+            left join playlists_songs on songs.song_id = playlists_songs.song_id 
+            where playlists_songs.playlist_id = %s 
+            order by RANDOM()""", 
+            [name]
+            )
+        else:
+            cursor.execute("""select * from songs 
+            left join playlists_songs on songs.song_id = playlists_songs.song_id 
+            where playlists_songs.playlist_id = %s 
+            order by song_order""",
+            [name]
+            )
     except Exception as e:
         print(e)
         return '100'
@@ -121,7 +135,11 @@ def addSongToPlaylist():
     playlist = request.args.get('playlist')
 
     try:
-        cursor.execute("insert into playlists_songs(playlist_id, song_id, song_order) values (%s, %s, (select MAX(song_order) + 1 from playlists_songs where playlist_id = %s)) on conflict (playlist_id, song_id) do nothing", [playlist, song, playlist])
+        cursor.execute("""insert into playlists_songs(playlist_id, song_id, song_order) 
+        values (%s, %s, (select MAX(song_order) + 1 from playlists_songs where playlist_id = %s)) 
+        on conflict (playlist_id, song_id) do nothing""",
+        [playlist, song, playlist]
+        )
         serverHelper.addSongToDatabase(cursor, song)
 
     except Exception as e:
