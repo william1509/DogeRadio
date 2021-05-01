@@ -34,11 +34,10 @@
         Your playlist is empty
     </div>
     <div cdkDropList class="example-list" (cdkDropListDropped)="SongDropped($event)">
-        <div *ngFor="let song of songs" fxLayout="column" cdkDrag>
+        <div *ngFor="let song of songs" fxLayout="column" cdkDrag class="songs-playlist">
             <div fxLayout="row" fxLayoutGap="10px">
                 <button 
-                    onfocus="this.blur()"
-                    mat-flat-button 
+                    mat-button 
                     class="song-label"
                     fxFlex=90 
                     (click)="SongClicked(song)"

@@ -17,7 +17,6 @@ export class SinglePlaylistComponent implements OnInit {
     public songs: Video[];
     public inputChanged: boolean = false;
 
-
     constructor(@Inject(MAT_DIALOG_DATA) public playlist: Playlist,
                 public backendService: BackendService,
                 public musicPlayerService: MusicPlayerService
@@ -44,6 +43,7 @@ export class SinglePlaylistComponent implements OnInit {
 
     public SongClicked(song: Video): void {
         const index = this.songs.indexOf(song);
+        
         let songs = this.songs.slice(index);
         this.musicPlayerService.PlaySongs(songs);
     }

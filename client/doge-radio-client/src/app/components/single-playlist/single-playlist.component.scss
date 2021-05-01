@@ -8,10 +8,6 @@
     color: red;
 }
 
-.delete-button:hover {
-    background-color: rgb(44, 0, 0);
-}
-
 .current-song {
     background-color: rgba(22, 126, 22, 0.1);
 }
@@ -35,4 +31,7 @@
 
 .cancel-button {
     color:red;
+}
+.songs-playlist {
+    font-family: monospace;
 }

@@ -31,15 +31,19 @@ export class MusicPlayerService {
     }
 
     public DefaultCurrentSong(): Video {
-        return {type: "", song_id: "", title: "", publishedTime: "", 
-                            duration: "", viewCount: {text: "", short: ""}, 
-                            thumbnails: [{url: "", width: 0, height: 0}], 
-                            descriptionSnippet: [{text: ""}],
-                            channel: {name: "", id: "", thumbnails: [{url: "", width: 0, height: 0}], link: ""},
-                            accessibility: {title: "", duration: ""}, link: "", shelfTitle: ""};
+        return { type: "", song_id: "", title: "", publishedTime: "", 
+                duration: "", viewCount: {text: "", short: ""}, 
+                thumbnails: [{url: "", width: 0, height: 0}], 
+                descriptionSnippet: [{text: ""}],
+                channel: {name: "", id: "", thumbnails: [{url: "", width: 0, height: 0}], link: ""},
+                accessibility: {title: "", duration: ""}, link: "", shelfTitle: ""};
     }
 
     public PlayNext(): void {
+        if(this.audioPlayerElement.src === '') {
+            this.PlaySong(this.songQueue.head);
+            return;
+        }
         let previousSong = this.songQueue.dequeue();
         this.previousSongs.enqueue(previousSong);
         let nextSong = this.songQueue.head;
