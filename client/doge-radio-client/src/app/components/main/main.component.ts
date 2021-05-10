@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AuthenticationService } from '../../services/authentication.service';
 import { BackendService } from '../../services/backend/backend.service';
 import { MusicPlayerService } from '../../services/music-player/music-player.service';
 
@@ -9,8 +10,12 @@ import { MusicPlayerService } from '../../services/music-player/music-player.ser
     encapsulation: ViewEncapsulation.None
 })
 export class MainComponent implements OnInit {
-    constructor(public backendService: BackendService, public musicPlayerService: MusicPlayerService) {
-        
+    constructor(
+                public backendService: BackendService,
+                public musicPlayerService: MusicPlayerService,
+                public authenticationService: AuthenticationService
+                ) 
+    {
     }
 
     ngOnInit(): void {

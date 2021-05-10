@@ -4,7 +4,7 @@ import { Video } from '../Video';
 import { Observable } from 'rxjs';
 import { Playlist } from '../Playlist';
 
-const url = 'http://127.0.0.1:5000';
+const url = 'http://35.215.31.219:5000/';
 
 
 @Injectable({

@@ -1,7 +1,7 @@
 <div id="container">
     <div id="search-bar">
         <mat-form-field color="primary">
-            <input id="input" matInput placeholder="Enter a song" (keypress)="VerifyInput($event)" [(ngModel)]="keyword">
+            <input id="input" matInput placeholder="Search for a song" (keypress)="VerifyInput($event)" [(ngModel)]="keyword">
         </mat-form-field>
         <button mat-button id="go-button" (click)="ButtonClicked()">Go</button>
     </div>
